@@ -1,0 +1,65 @@
+{
+  "name": "@lalubalu/signal-engine",
+  "version": "0.1.0",
+  "description": "Deterministic, dependency-free anomaly detection for time series and geo events: robust z-scores, EWMA drift, CUSUM change points, Poisson event rates, haversine DBSCAN swarms, and threshold rules.",
+  "license": "MIT",
+  "author": "Lalith Satheesh",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lalubalu/earth--.git",
+    "directory": "packages/signal-engine"
+  },
+  "homepage": "https://github.com/lalubalu/earth--/tree/main/packages/signal-engine#readme",
+  "bugs": "https://github.com/lalubalu/earth--/issues",
+  "keywords": [
+    "anomaly-detection",
+    "time-series",
+    "cusum",
+    "ewma",
+    "dbscan",
+    "poisson",
+    "robust-statistics",
+    "signals",
+    "typescript"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "@vitest/coverage-v8": "^4.1.11",
+    "eslint": "^9.39.0",
+    "tsup": "^8.5.1",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.69.0",
+    "vitest": "^4.1.11"
+  }
+}

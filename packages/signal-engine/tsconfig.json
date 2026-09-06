@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "dist",
+    "noEmit": true,
+    "types": []
+  },
+  "include": ["src", "test", "tsup.config.ts", "vitest.config.ts", "eslint.config.mjs"]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "earth-signals",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Live planetary feeds, in-browser anomaly detection, and a ranked, explained signal feed.",
+  "packageManager": "pnpm@12.3.4",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @lalubalu/signal-engine build && pnpm --filter dashboard dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "clean": "rimraf packages/signal-engine/dist apps/dashboard/.next",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.2",
+    "prettier": "^3.9.6",
+    "rimraf": "^6.0.1"
+  }
+}

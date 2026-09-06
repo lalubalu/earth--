@@ -1,0 +1,10 @@
+packages:
+  - apps/*
+  - packages/*
+
+# pnpm 11+ denies postinstall scripts by default. These three are the only
+# ones we need: esbuild (tsup), sharp (next/image), unrs-resolver (eslint-config-next).
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
