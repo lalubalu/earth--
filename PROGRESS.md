@@ -6,8 +6,8 @@ Resume point for any fresh session. Read this before touching code.
 
 | Phase | Scope | Status |
 | --- | --- | --- |
-| 1 | Monorepo scaffold, tooling, CI, this file | in progress |
-| 2 | `packages/signal-engine` with Vitest suite | todo |
+| 1 | Monorepo scaffold, tooling, CI, this file | done |
+| 2 | `packages/signal-engine` with Vitest suite | done |
 | 3 | Feed adapters + `/api/feeds/[source]` route handlers, verified live | todo |
 | 4 | Dashboard shell, Web Worker wiring, signal feed, D3 charts | todo |
 | 5 | WebGL globe and GSAP motion | todo |
@@ -30,10 +30,15 @@ Resume point for any fresh session. Read this before touching code.
 - **Globe basemap:** generated at runtime on a 2D canvas from `world-atlas` land TopoJSON (Natural Earth, public domain) through `d3-geo`, so there is no binary texture in the repo and the map matches the palette.
 - **Headers:** every `.ts/.tsx/.js/.mjs/.css/.glsl` file starts with `/* Programmer: Lalith Satheesh / Date: MM/DD/YYYY */` using its creation date.
 
+- **Engine shape decisions:** `Signal` carries the spec'd fields plus `status` (`active`/`cooling`), `kind`, `rule`, `location`, `alsoDetectedBy`. `GeoEvent` gets an optional `label` (USGS place) for summaries. `SeriesDescriptor` carries `label`, `unit`, `lat/lon`, `minSigma` (floor on robust spread so a flat series cannot explode) and per-series `overrides` for the three series detectors. Detectors return `Candidate`s with a `ratio` so `reconcile` can apply hysteresis; domain rules outrank statistical detectors on the same series.
+- **Statistical choices:** modified z uses MAD*1.4826 with mean-abs-dev fallback; EWMA alpha is derived per series from median sample spacing and a half-life (default 24 h) so the diurnal weather cycle does not fire; CUSUM k=0.5, h=5 in reference sigmas, evidence threshold = mu0 + (k + h/m) sigma; event rate and swarm use the Anscombe Poisson z with the recent window excluded from the baseline.
+
 ## Done
 
 - Live responses captured for USGS hour/month, NOAA rtsw wind/mag, Kp 1m and 3h, Open-Meteo forecast and air quality, EONET, ISS.
+- Phase 1: scaffold, CI (`.github/workflows/ci.yml`), release workflow (needs `NPM_TOKEN`), changesets, templates, MIT license.
+- Phase 2: engine with six detectors, reconcile (dedupe/hysteresis/cooldown/rank), 50 Vitest tests (98% lines), tsup ESM+CJS+d.ts build, README.
 
 ## Next
 
-- Phase 1 scaffold commit.
+- Phase 3: feed adapters + route handlers in `apps/dashboard/src/lib/feeds`, tested against the captured fixtures.
