@@ -1,10 +1,12 @@
 name: Release
 
-# Publishes @lalubalu/signal-engine through Changesets. Needs an NPM_TOKEN
-# repository secret with publish rights on the @lalubalu scope.
+# Publishes @lalubalu/signal-engine through Changesets. Needs an NPM_TOKEN repository
+# secret with publish rights on the @lalubalu scope; without it every step is skipped so
+# the run stays green instead of failing on a missing token.
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -15,20 +17,32 @@ jobs:
   release:
     if: github.repository == 'lalubalu/earth--'
     runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
+      - name: Check for NPM_TOKEN
+        id: token
+        run: |
+          if [ -n "$NPM_TOKEN" ]; then echo "present=true" >> "$GITHUB_OUTPUT"; else echo "present=false" >> "$GITHUB_OUTPUT"; echo "NPM_TOKEN is not set; skipping release."; fi
       - uses: actions/checkout@v4
+        if: steps.token.outputs.present == 'true'
       - uses: pnpm/action-setup@v4
+        if: steps.token.outputs.present == 'true'
       - uses: actions/setup-node@v4
+        if: steps.token.outputs.present == 'true'
         with:
           node-version: 22
           cache: pnpm
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
+        if: steps.token.outputs.present == 'true'
       - run: pnpm --filter @lalubalu/signal-engine build
+        if: steps.token.outputs.present == 'true'
       - uses: changesets/action@v1
+        if: steps.token.outputs.present == 'true'
         with:
           publish: pnpm release
           version: pnpm version-packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
