@@ -152,8 +152,16 @@ export interface CusumConfig {
   baselineFraction: number;
   /** Slack k in sigmas: deviations smaller than this do not accumulate. */
   slack: number;
-  /** Decision interval h in sigmas. */
+  /**
+   * Decision interval h in sigmas. The classic 5 gives an in-control run length of ~465
+   * iid samples; autocorrelated data (hourly weather) wants 8 or more.
+   */
   decision: number;
+  /**
+   * Severity is the size of the shift in reference sigmas, not the accumulated sum: it
+   * ramps from 0 at `slack` to 1 at this many sigmas.
+   */
+  severityShiftSigmas: number;
 }
 
 export interface EventRateConfig {

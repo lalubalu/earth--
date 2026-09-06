@@ -9,7 +9,7 @@ Resume point for any fresh session. Read this before touching code.
 | 1 | Monorepo scaffold, tooling, CI, this file | done |
 | 2 | `packages/signal-engine` with Vitest suite | done |
 | 3 | Feed adapters + `/api/feeds/[source]` route handlers, verified live | done |
-| 4 | Dashboard shell, Web Worker wiring, signal feed, D3 charts | todo |
+| 4 | Dashboard shell, Web Worker wiring, signal feed, D3 charts | done |
 | 5 | WebGL globe and GSAP motion | todo |
 | 6 | AI layer (`/api/brief`, `/api/ask`) with keyless fallback | todo |
 | 7 | README, docs, performance and accessibility pass | todo |
@@ -42,6 +42,9 @@ Resume point for any fresh session. Read this before touching code.
 - Phase 3: adapters for USGS (hour + month), NOAA (rtsw wind/mag, Kp 1m, Kp 3h), Open-Meteo forecast and air quality (batched, 12 cities), EONET, ISS. Route handler `/api/feeds/[source]` with module-scope memo + in-flight coalescing + CDN `s-maxage`; failures serve last-good data with `ok:false`. 16 Vitest tests over trimmed live fixtures in `apps/dashboard/test/fixtures`. All seven routes verified end-to-end through `next dev` on 2026-09-05 (usgs-month payload ~2 MB before gzip, fetched hourly).
 - Engine descriptors and dashboard engine config live in `apps/dashboard/src/lib/engine/descriptors.ts` (labels, units, `minSigma`, per-cadence overrides, earthquake-only rate/swarm).
 
+- Phase 4: shell with Instrument Serif via `next/font/local`, Tailwind 4 `@theme` tokens (one amber accent), TanStack Query polling (`useFeeds` with `combine`), engine in a module Web Worker (`engine.worker.ts`, main-thread fallback), ranked feed with roving tabindex + `aria-live`, `<dialog>` drawer with D3 evidence charts (series line + baseline/threshold/observed, event histogram vs expected rate, magnitude scale for rule hits), chart strip of small multiples. Verified in Chromium at 1440 and 375 px against live feeds: 77 series, ~11k events, engine ~40 ms in the worker.
+- **Tuning after the first live run:** CUSUM severity is now the shift size in reference sigmas (not the accumulated sum), the dashboard uses `cusum { slack 0.75, decision 8 }` for autocorrelated hourly weather, and `minSigma` floors were raised to practical-significance levels (pressure 4 hPa, AQI 12, PM2.5 8, solar wind speed 20 km/s, density 1.5, Bz 2 nT, Kp 1). Signal count on live data went from the 50 cap to ~28.
+
 ## Next
 
-- Phase 4: dashboard shell (`layout.tsx`, `page.tsx`, fonts, Tailwind theme), TanStack Query polling hooks, Web Worker running the engine, signal feed + cards, D3 chart strip and detail drawer.
+- Phase 5: WebGL globe (`react-three-fiber` + drei, instanced GLSL markers, atmosphere fresnel, on-demand rendering, GSAP fly-to) and GSAP card entrances / number ticks with reduced-motion handling.

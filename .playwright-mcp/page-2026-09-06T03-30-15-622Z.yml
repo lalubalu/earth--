@@ -1,0 +1,463 @@
+- generic [active] [ref=f1e1]:
+  - link "Skip to signal feed" [ref=f1e2] [cursor=pointer]:
+    - /url: "#signals"
+  - generic [ref=f1e3]:
+    - banner [ref=f1e4]:
+      - generic [ref=f1e5]:
+        - heading "Earth Signals" [level=1] [ref=f1e6]
+        - paragraph [ref=f1e7]: public feeds, browser-side anomaly detection, explained
+      - generic [ref=f1e8]:
+        - list "Feed status" [ref=f1e9]:
+          - 'listitem "USGS quakes: live data 1 min ago polls every 1 min https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson" [ref=f1e149]':
+            - generic [ref=f1e12]: USGS quakes
+            - generic [ref=f1e13]: 1 min ago
+          - 'listitem "USGS 30-day: live data 5 min ago polls every 1 h https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson" [ref=f1e150]':
+            - generic [ref=f1e16]: USGS 30-day
+            - generic [ref=f1e17]: 5 min ago
+          - 'listitem "NOAA SWPC: live data 1 min ago polls every 1 min https://services.swpc.noaa.gov/json/rtsw/rtsw_wind_1m.json https://services.swpc.noaa.gov/json/rtsw/rtsw_mag_1m.json https://services.swpc.noaa.gov/json/planetary_k_index_1m.json https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json" [ref=f1e151]':
+            - generic [ref=f1e20]: NOAA SWPC
+            - generic [ref=f1e21]: 1 min ago
+          - 'listitem "Open-Meteo: live data 5 min ago polls every 15 min https://api.open-meteo.com/v1/forecast?latitude=40.71%2C19.43%2C-23.55%2C51.51%2C6.52%2C30.04%2C-1.29%2C19.08%2C39.9%2C35.68%2C-6.21%2C-33.87&longitude=-74.01%2C-99.13%2C-46.63%2C-0.13%2C3.38%2C31.24%2C36.82%2C72.88%2C116.4%2C139.69%2C106.85%2C151.21&hourly=temperature_2m%2Cpressure_msl%2Cwind_gusts_10m%2Cprecipitation&past_days=7&forecast_days=1&timeformat=unixtime" [ref=f1e152]':
+            - generic [ref=f1e24]: Open-Meteo
+            - generic [ref=f1e25]: 5 min ago
+          - 'listitem "Air quality: live data 5 min ago polls every 15 min https://air-quality-api.open-meteo.com/v1/air-quality?latitude=40.71%2C19.43%2C-23.55%2C51.51%2C6.52%2C30.04%2C-1.29%2C19.08%2C39.9%2C35.68%2C-6.21%2C-33.87&longitude=-74.01%2C-99.13%2C-46.63%2C-0.13%2C3.38%2C31.24%2C36.82%2C72.88%2C116.4%2C139.69%2C106.85%2C151.21&hourly=pm2_5%2Cus_aqi&past_days=7&forecast_days=1&timeformat=unixtime" [ref=f1e153]':
+            - generic [ref=f1e28]: Air quality
+            - generic [ref=f1e29]: 5 min ago
+          - 'listitem "NASA EONET: live data 5 min ago polls every 10 min https://eonet.gsfc.nasa.gov/api/v3/events?status=open&days=30" [ref=f1e154]':
+            - generic [ref=f1e32]: NASA EONET
+            - generic [ref=f1e33]: 5 min ago
+          - 'listitem "ISS: live data just now polls every 10 s https://api.wheretheiss.at/v1/satellites/25544" [ref=f1e155]':
+            - generic [ref=f1e36]: ISS
+            - generic [ref=f1e37]: just now
+        - paragraph [ref=f1e38]: 32 active signals · 77 series · 11365 events · engine 44 ms in worker · 20:30:07
+    - main [ref=f1e39]:
+      - region "Globe" [ref=f1e40]:
+        - paragraph [ref=f1e41]: globe pending · 11369 events loaded
+      - complementary [ref=f1e156]:
+        - generic [ref=f1e43]:
+          - heading "Signals 32" [level=2] [ref=f1e157]
+          - generic [ref=f1e45]: ranked by severity, then recency
+        - list "Ranked signals" [ref=f1e158]:
+          - listitem [ref=f1e159]:
+            - 'button "Severity Severe, 100 percent Shift +1 New York sea-level pressure 1011 hPa vs 1019 hPa New York sea-level pressure shifted down about 2.9 days ago: it has averaged 1011 hPa since then against a reference of 1019 hPa (needed 1017 hPa to fire; 70 samples). started 2.9 d ago · updated just now" [ref=f1e160] [cursor=pointer]':
+              - generic [ref=f1e161]:
+                - generic "Severity Severe, 100 percent" [ref=f1e162]: Severe
+                - generic [ref=f1e166]:
+                  - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e167]: Shift
+                  - generic "Also detected by Drift" [ref=f1e168]: "+1"
+              - heading "New York sea-level pressure" [level=3] [ref=f1e169]
+              - paragraph [ref=f1e170]: 1011 hPa vs 1019 hPa
+              - paragraph [ref=f1e171]: "New York sea-level pressure shifted down about 2.9 days ago: it has averaged 1011 hPa since then against a reference of 1019 hPa (needed 1017 hPa to fire; 70 samples)."
+              - paragraph [ref=f1e172]: started 2.9 d ago · updated just now
+          - listitem [ref=f1e173]:
+            - 'button "Severity Severe, 100 percent Drift +1 Solar wind density 4.22 p/cm³ vs 3.12 p/cm³ Smoothed Solar wind density has drifted above its reference: 4.22 p/cm³ against 3.12 p/cm³ (limit 3.42 p/cm³; 1429 samples over 1 day). started 9 h ago · updated just now" [ref=f1e174] [cursor=pointer]':
+              - generic [ref=f1e175]:
+                - generic "Severity Severe, 100 percent" [ref=f1e176]: Severe
+                - generic [ref=f1e180]:
+                  - generic "Exponentially weighted moving average control chart on level and variance." [ref=f1e181]: Drift
+                  - generic "Also detected by Shift" [ref=f1e182]: "+1"
+              - heading "Solar wind density" [level=3] [ref=f1e183]
+              - paragraph [ref=f1e184]: 4.22 p/cm³ vs 3.12 p/cm³
+              - paragraph [ref=f1e185]: "Smoothed Solar wind density has drifted above its reference: 4.22 p/cm³ against 3.12 p/cm³ (limit 3.42 p/cm³; 1429 samples over 1 day)."
+              - paragraph [ref=f1e186]: started 9 h ago · updated just now
+          - listitem [ref=f1e187]:
+            - 'button "Severity Severe, 82 percent Shift +1 Sydney US AQI 45.2 vs 76.5 Sydney US AQI shifted down about 4.52 days ago: it has averaged 45.2 since then against a reference of 76.5 (needed 66.6 to fire; 109 samples). started 4.5 d ago · updated just now" [ref=f1e188] [cursor=pointer]':
+              - generic [ref=f1e189]:
+                - generic "Severity Severe, 82 percent" [ref=f1e190]: Severe
+                - generic [ref=f1e194]:
+                  - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e195]: Shift
+                  - generic "Also detected by Drift" [ref=f1e196]: "+1"
+              - heading "Sydney US AQI" [level=3] [ref=f1e197]
+              - paragraph [ref=f1e198]: 45.2 vs 76.5
+              - paragraph [ref=f1e199]: "Sydney US AQI shifted down about 4.52 days ago: it has averaged 45.2 since then against a reference of 76.5 (needed 66.6 to fire; 109 samples)."
+              - paragraph [ref=f1e200]: started 4.5 d ago · updated just now
+          - listitem [ref=f1e201]:
+            - 'button "Severity High, 72 percent Drift +1 Mexico City sea-level pressure 1017 hPa vs 1021 hPa Smoothed Mexico City sea-level pressure has drifted below its reference: 1017 hPa against 1021 hPa (limit 1019 hPa; 168 samples over 7 days). started 2.1 d ago · updated just now" [ref=f1e202] [cursor=pointer]':
+              - generic [ref=f1e203]:
+                - generic "Severity High, 72 percent" [ref=f1e204]: High
+                - generic [ref=f1e208]:
+                  - generic "Exponentially weighted moving average control chart on level and variance." [ref=f1e209]: Drift
+                  - generic "Also detected by Shift" [ref=f1e210]: "+1"
+              - heading "Mexico City sea-level pressure" [level=3] [ref=f1e211]
+              - paragraph [ref=f1e212]: 1017 hPa vs 1021 hPa
+              - paragraph [ref=f1e213]: "Smoothed Mexico City sea-level pressure has drifted below its reference: 1017 hPa against 1021 hPa (limit 1019 hPa; 168 samples over 7 days)."
+              - paragraph [ref=f1e214]: started 2.1 d ago · updated just now
+          - listitem [ref=f1e215]:
+            - 'button "Severity High, 67 percent Drift +1 Beijing US AQI 185 vs 157 Smoothed Beijing US AQI has drifted above its reference: 185 against 157 (limit 169; 168 samples over 7 days). started 2.8 d ago · updated just now" [ref=f1e216] [cursor=pointer]':
+              - generic [ref=f1e217]:
+                - generic "Severity High, 67 percent" [ref=f1e218]: High
+                - generic [ref=f1e222]:
+                  - generic "Exponentially weighted moving average control chart on level and variance." [ref=f1e223]: Drift
+                  - generic "Also detected by Shift" [ref=f1e224]: "+1"
+              - heading "Beijing US AQI" [level=3] [ref=f1e225]
+              - paragraph [ref=f1e226]: 185 vs 157
+              - paragraph [ref=f1e227]: "Smoothed Beijing US AQI has drifted above its reference: 185 against 157 (limit 169; 168 samples over 7 days)."
+              - paragraph [ref=f1e228]: started 2.8 d ago · updated just now
+          - listitem [ref=f1e229]:
+            - 'button "Severity High, 52 percent Rule M5.6 earthquake near 96 km ESE of Isangel, Vanuatu 5.6 vs 1.49 Earthquake of magnitude 5.6 near 96 km ESE of Isangel, Vanuatu is at or above the major earthquake threshold of 5.5 (median of the last 30 days: 1.49; 11001 events). started 10 h ago · updated just now" [ref=f1e230] [cursor=pointer]':
+              - generic [ref=f1e231]:
+                - generic "Severity High, 52 percent" [ref=f1e232]: High
+                - generic "Absolute domain rule such as Kp at or above 5." [ref=f1e237]: Rule
+              - heading "M5.6 earthquake near 96 km ESE of Isangel, Vanuatu" [level=3] [ref=f1e238]
+              - paragraph [ref=f1e239]: 5.6 vs 1.49
+              - paragraph [ref=f1e240]: "Earthquake of magnitude 5.6 near 96 km ESE of Isangel, Vanuatu is at or above the major earthquake threshold of 5.5 (median of the last 30 days: 1.49; 11001 events)."
+              - paragraph [ref=f1e241]: started 10 h ago · updated just now
+          - listitem [ref=f1e242]:
+            - 'button "Severity High, 50 percent Rule M5.5 earthquake near 157 km E of Kokopo, Papua New Guinea 5.5 vs 1.49 Earthquake of magnitude 5.5 near 157 km E of Kokopo, Papua New Guinea is at or above the major earthquake threshold of 5.5 (median of the last 30 days: 1.49; 11001 events). started 13 h ago · updated just now" [ref=f1e243] [cursor=pointer]':
+              - generic [ref=f1e244]:
+                - generic "Severity High, 50 percent" [ref=f1e245]: High
+                - generic "Absolute domain rule such as Kp at or above 5." [ref=f1e250]: Rule
+              - heading "M5.5 earthquake near 157 km E of Kokopo, Papua New Guinea" [level=3] [ref=f1e251]
+              - paragraph [ref=f1e252]: 5.5 vs 1.49
+              - paragraph [ref=f1e253]: "Earthquake of magnitude 5.5 near 157 km E of Kokopo, Papua New Guinea is at or above the major earthquake threshold of 5.5 (median of the last 30 days: 1.49; 11001 events)."
+              - paragraph [ref=f1e254]: started 13 h ago · updated just now
+          - listitem [ref=f1e255]:
+            - 'button "Severity Moderate, 49 percent Shift +1 Sydney wind gusts 43.8 km/h vs 21.4 km/h Sydney wind gusts shifted up about 1.15 days ago: it has averaged 43.8 km/h since then against a reference of 21.4 km/h (needed 33.8 km/h to fire; 28 samples). started 1.1 d ago · updated just now" [ref=f1e256] [cursor=pointer]':
+              - generic [ref=f1e257]:
+                - generic "Severity Moderate, 49 percent" [ref=f1e258]: Moderate
+                - generic [ref=f1e262]:
+                  - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e263]: Shift
+                  - generic "Also detected by Drift" [ref=f1e264]: "+1"
+              - heading "Sydney wind gusts" [level=3] [ref=f1e265]
+              - paragraph [ref=f1e266]: 43.8 km/h vs 21.4 km/h
+              - paragraph [ref=f1e267]: "Sydney wind gusts shifted up about 1.15 days ago: it has averaged 43.8 km/h since then against a reference of 21.4 km/h (needed 33.8 km/h to fire; 28 samples)."
+              - paragraph [ref=f1e268]: started 1.1 d ago · updated just now
+          - listitem [ref=f1e269]:
+            - 'button "Severity Moderate, 46 percent Shift +1 Nairobi US AQI 61.4 vs 40 Nairobi US AQI shifted up about 3.69 days ago: it has averaged 61.4 since then against a reference of 40 (needed 50.1 to fire; 89 samples). started 3.7 d ago · updated just now" [ref=f1e270] [cursor=pointer]':
+              - generic [ref=f1e271]:
+                - generic "Severity Moderate, 46 percent" [ref=f1e272]: Moderate
+                - generic [ref=f1e276]:
+                  - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e277]: Shift
+                  - generic "Also detected by Drift" [ref=f1e278]: "+1"
+              - heading "Nairobi US AQI" [level=3] [ref=f1e279]
+              - paragraph [ref=f1e280]: 61.4 vs 40
+              - paragraph [ref=f1e281]: "Nairobi US AQI shifted up about 3.69 days ago: it has averaged 61.4 since then against a reference of 40 (needed 50.1 to fire; 89 samples)."
+              - paragraph [ref=f1e282]: started 3.7 d ago · updated just now
+          - listitem [ref=f1e283]:
+            - 'button "Severity Moderate, 45 percent Shift +1 Mexico City US AQI 104 vs 83 Mexico City US AQI shifted up about 3.31 days ago: it has averaged 104 since then against a reference of 83 (needed 93.2 to fire; 80 samples). started 3.3 d ago · updated just now" [ref=f1e284] [cursor=pointer]':
+              - generic [ref=f1e285]:
+                - generic "Severity Moderate, 45 percent" [ref=f1e286]: Moderate
+                - generic [ref=f1e290]:
+                  - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e291]: Shift
+                  - generic "Also detected by Drift" [ref=f1e292]: "+1"
+              - heading "Mexico City US AQI" [level=3] [ref=f1e293]
+              - paragraph [ref=f1e294]: 104 vs 83
+              - paragraph [ref=f1e295]: "Mexico City US AQI shifted up about 3.31 days ago: it has averaged 104 since then against a reference of 83 (needed 93.2 to fire; 80 samples)."
+              - paragraph [ref=f1e296]: started 3.3 d ago · updated just now
+          - listitem [ref=f1e297]:
+            - 'button "Severity Moderate, 44 percent Shift Tokyo wind gusts 28.5 km/h vs 14.6 km/h Tokyo wind gusts shifted up about 10.5 h ago: it has averaged 28.5 km/h since then against a reference of 14.6 km/h (needed 26.4 km/h to fire; 11 samples). started 11 h ago · updated just now" [ref=f1e298] [cursor=pointer]':
+              - generic [ref=f1e299]:
+                - generic "Severity Moderate, 44 percent" [ref=f1e300]: Moderate
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e305]: Shift
+              - heading "Tokyo wind gusts" [level=3] [ref=f1e306]
+              - paragraph [ref=f1e307]: 28.5 km/h vs 14.6 km/h
+              - paragraph [ref=f1e308]: "Tokyo wind gusts shifted up about 10.5 h ago: it has averaged 28.5 km/h since then against a reference of 14.6 km/h (needed 26.4 km/h to fire; 11 samples)."
+              - paragraph [ref=f1e309]: started 11 h ago · updated just now
+          - listitem [ref=f1e310]:
+            - 'button "Severity Moderate, 44 percent Shift +1 Solar wind speed 344 km/s vs 335 km/s Solar wind speed shifted up about 12.4 h ago: it has averaged 344 km/s since then against a reference of 335 km/s (needed 338 km/s to fire; 733 samples). started 12 h ago · updated just now" [ref=f1e311] [cursor=pointer]':
+              - generic [ref=f1e312]:
+                - generic "Severity Moderate, 44 percent" [ref=f1e313]: Moderate
+                - generic [ref=f1e317]:
+                  - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e318]: Shift
+                  - generic "Also detected by Drift" [ref=f1e319]: "+1"
+              - heading "Solar wind speed" [level=3] [ref=f1e320]
+              - paragraph [ref=f1e321]: 344 km/s vs 335 km/s
+              - paragraph [ref=f1e322]: "Solar wind speed shifted up about 12.4 h ago: it has averaged 344 km/s since then against a reference of 335 km/s (needed 338 km/s to fire; 733 samples)."
+              - paragraph [ref=f1e323]: started 12 h ago · updated just now
+          - listitem [ref=f1e324]:
+            - 'button "Severity Moderate, 43 percent Shift +1 Sydney sea-level pressure 1015 hPa vs 1026 hPa Sydney sea-level pressure shifted down about 5.02 days ago: it has averaged 1015 hPa since then against a reference of 1026 hPa (needed 1021 hPa to fire; 121 samples). started 5 d ago · updated just now" [ref=f1e325] [cursor=pointer]':
+              - generic [ref=f1e326]:
+                - generic "Severity Moderate, 43 percent" [ref=f1e327]: Moderate
+                - generic [ref=f1e331]:
+                  - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e332]: Shift
+                  - generic "Also detected by Drift" [ref=f1e333]: "+1"
+              - heading "Sydney sea-level pressure" [level=3] [ref=f1e334]
+              - paragraph [ref=f1e335]: 1015 hPa vs 1026 hPa
+              - paragraph [ref=f1e336]: "Sydney sea-level pressure shifted down about 5.02 days ago: it has averaged 1015 hPa since then against a reference of 1026 hPa (needed 1021 hPa to fire; 121 samples)."
+              - paragraph [ref=f1e337]: started 5 d ago · updated just now
+          - listitem [ref=f1e338]:
+            - 'button "Severity Moderate, 43 percent Shift Cairo sea-level pressure 1013 hPa vs 1010 hPa Cairo sea-level pressure shifted up about 10.5 h ago: it has averaged 1013 hPa since then against a reference of 1010 hPa (needed 1013 hPa to fire; 11 samples). started 11 h ago · updated just now" [ref=f1e339] [cursor=pointer]':
+              - generic [ref=f1e340]:
+                - generic "Severity Moderate, 43 percent" [ref=f1e341]: Moderate
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e346]: Shift
+              - heading "Cairo sea-level pressure" [level=3] [ref=f1e347]
+              - paragraph [ref=f1e348]: 1013 hPa vs 1010 hPa
+              - paragraph [ref=f1e349]: "Cairo sea-level pressure shifted up about 10.5 h ago: it has averaged 1013 hPa since then against a reference of 1010 hPa (needed 1013 hPa to fire; 11 samples)."
+              - paragraph [ref=f1e350]: started 11 h ago · updated just now
+          - listitem [ref=f1e351]:
+            - 'button "Severity Moderate, 37 percent Shift London wind gusts 14.9 km/h vs 27.5 km/h London wind gusts shifted down about 12.5 h ago: it has averaged 14.9 km/h since then against a reference of 27.5 km/h (needed 16.6 km/h to fire; 13 samples). started 13 h ago · updated just now" [ref=f1e352] [cursor=pointer]':
+              - generic [ref=f1e353]:
+                - generic "Severity Moderate, 37 percent" [ref=f1e354]: Moderate
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e359]: Shift
+              - heading "London wind gusts" [level=3] [ref=f1e360]
+              - paragraph [ref=f1e361]: 14.9 km/h vs 27.5 km/h
+              - paragraph [ref=f1e362]: "London wind gusts shifted down about 12.5 h ago: it has averaged 14.9 km/h since then against a reference of 27.5 km/h (needed 16.6 km/h to fire; 13 samples)."
+              - paragraph [ref=f1e363]: started 13 h ago · updated just now
+          - listitem [ref=f1e364]:
+            - 'button "Severity Moderate, 36 percent Shift Mexico City wind gusts 23.5 km/h vs 11 km/h Mexico City wind gusts shifted up about 10.5 h ago: it has averaged 23.5 km/h since then against a reference of 11 km/h (needed 22.8 km/h to fire; 11 samples). started 11 h ago · updated just now" [ref=f1e365] [cursor=pointer]':
+              - generic [ref=f1e366]:
+                - generic "Severity Moderate, 36 percent" [ref=f1e367]: Moderate
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e372]: Shift
+              - heading "Mexico City wind gusts" [level=3] [ref=f1e373]
+              - paragraph [ref=f1e374]: 23.5 km/h vs 11 km/h
+              - paragraph [ref=f1e375]: "Mexico City wind gusts shifted up about 10.5 h ago: it has averaged 23.5 km/h since then against a reference of 11 km/h (needed 22.8 km/h to fire; 11 samples)."
+              - paragraph [ref=f1e376]: started 11 h ago · updated just now
+          - listitem [ref=f1e377]:
+            - 'button "Severity Moderate, 33 percent Drift +1 Kp (3-hour) 1.18 vs 2 Smoothed Kp (3-hour) has drifted below its reference: 1.18 against 2 (limit 1.51; 55 samples over 7 days). started 13 h ago · updated just now" [ref=f1e378] [cursor=pointer]':
+              - generic [ref=f1e379]:
+                - generic "Severity Moderate, 33 percent" [ref=f1e380]: Moderate
+                - generic [ref=f1e384]:
+                  - generic "Exponentially weighted moving average control chart on level and variance." [ref=f1e385]: Drift
+                  - generic "Also detected by Shift" [ref=f1e386]: "+1"
+              - heading "Kp (3-hour)" [level=3] [ref=f1e387]
+              - paragraph [ref=f1e388]: 1.18 vs 2
+              - paragraph [ref=f1e389]: "Smoothed Kp (3-hour) has drifted below its reference: 1.18 against 2 (limit 1.51; 55 samples over 7 days)."
+              - paragraph [ref=f1e390]: started 13 h ago · updated just now
+          - listitem [ref=f1e391]:
+            - 'button "Severity Moderate, 32 percent Shift +1 Jakarta PM2.5 86.3 μg/m³ vs 55.9 μg/m³ Jakarta PM2.5 shifted up about 5.65 days ago: it has averaged 86.3 μg/m³ since then against a reference of 55.9 μg/m³ (needed 72.7 μg/m³ to fire; 136 samples). started 5.6 d ago · updated just now" [ref=f1e392] [cursor=pointer]':
+              - generic [ref=f1e393]:
+                - generic "Severity Moderate, 32 percent" [ref=f1e394]: Moderate
+                - generic [ref=f1e398]:
+                  - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e399]: Shift
+                  - generic "Also detected by Drift" [ref=f1e400]: "+1"
+              - heading "Jakarta PM2.5" [level=3] [ref=f1e401]
+              - paragraph [ref=f1e402]: 86.3 μg/m³ vs 55.9 μg/m³
+              - paragraph [ref=f1e403]: "Jakarta PM2.5 shifted up about 5.65 days ago: it has averaged 86.3 μg/m³ since then against a reference of 55.9 μg/m³ (needed 72.7 μg/m³ to fire; 136 samples)."
+              - paragraph [ref=f1e404]: started 5.6 d ago · updated just now
+          - listitem [ref=f1e405]:
+            - 'button "Severity Moderate, 30 percent Shift London sea-level pressure 1024 hPa vs 1018 hPa London sea-level pressure shifted up about 23.5 h ago: it has averaged 1024 hPa since then against a reference of 1018 hPa (needed 1022 hPa to fire; 24 samples). started 24 h ago · updated just now" [ref=f1e406] [cursor=pointer]':
+              - generic [ref=f1e407]:
+                - generic "Severity Moderate, 30 percent" [ref=f1e408]: Moderate
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e413]: Shift
+              - heading "London sea-level pressure" [level=3] [ref=f1e414]
+              - paragraph [ref=f1e415]: 1024 hPa vs 1018 hPa
+              - paragraph [ref=f1e416]: "London sea-level pressure shifted up about 23.5 h ago: it has averaged 1024 hPa since then against a reference of 1018 hPa (needed 1022 hPa to fire; 24 samples)."
+              - paragraph [ref=f1e417]: started 24 h ago · updated just now
+          - listitem [ref=f1e418]:
+            - 'button "Severity Moderate, 28 percent Shift Mumbai temperature 25.4°C vs 27.5°C Mumbai temperature shifted down about 13.5 h ago: it has averaged 25.4°C since then against a reference of 27.5°C (needed 25.5°C to fire; 14 samples). started 14 h ago · updated just now" [ref=f1e419] [cursor=pointer]':
+              - generic [ref=f1e420]:
+                - generic "Severity Moderate, 28 percent" [ref=f1e421]: Moderate
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e426]: Shift
+              - heading "Mumbai temperature" [level=3] [ref=f1e427]
+              - paragraph [ref=f1e428]: 25.4°C vs 27.5°C
+              - paragraph [ref=f1e429]: "Mumbai temperature shifted down about 13.5 h ago: it has averaged 25.4°C since then against a reference of 27.5°C (needed 25.5°C to fire; 14 samples)."
+              - paragraph [ref=f1e430]: started 14 h ago · updated just now
+          - listitem [ref=f1e431]:
+            - 'button "Severity Moderate, 28 percent Shift +1 Mexico City temperature 18.5°C vs 15.2°C Mexico City temperature shifted up about 3.52 days ago: it has averaged 18.5°C since then against a reference of 15.2°C (needed 17.2°C to fire; 85 samples). started 3.5 d ago · updated just now" [ref=f1e432] [cursor=pointer]':
+              - generic [ref=f1e433]:
+                - generic "Severity Moderate, 28 percent" [ref=f1e434]: Moderate
+                - generic [ref=f1e438]:
+                  - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e439]: Shift
+                  - generic "Also detected by Drift" [ref=f1e440]: "+1"
+              - heading "Mexico City temperature" [level=3] [ref=f1e441]
+              - paragraph [ref=f1e442]: 18.5°C vs 15.2°C
+              - paragraph [ref=f1e443]: "Mexico City temperature shifted up about 3.52 days ago: it has averaged 18.5°C since then against a reference of 15.2°C (needed 17.2°C to fire; 85 samples)."
+              - paragraph [ref=f1e444]: started 3.5 d ago · updated just now
+          - listitem [ref=f1e445]:
+            - 'button "Severity Low, 23 percent Shift +1 Nairobi sea-level pressure 1018 hPa vs 1021 hPa Nairobi sea-level pressure shifted down about 3.73 days ago: it has averaged 1018 hPa since then against a reference of 1021 hPa (needed 1019 hPa to fire; 90 samples). started 3.7 d ago · updated just now" [ref=f1e446] [cursor=pointer]':
+              - generic [ref=f1e447]:
+                - generic "Severity Low, 23 percent" [ref=f1e448]: Low
+                - generic [ref=f1e452]:
+                  - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e453]: Shift
+                  - generic "Also detected by Drift" [ref=f1e454]: "+1"
+              - heading "Nairobi sea-level pressure" [level=3] [ref=f1e455]
+              - paragraph [ref=f1e456]: 1018 hPa vs 1021 hPa
+              - paragraph [ref=f1e457]: "Nairobi sea-level pressure shifted down about 3.73 days ago: it has averaged 1018 hPa since then against a reference of 1021 hPa (needed 1019 hPa to fire; 90 samples)."
+              - paragraph [ref=f1e458]: started 3.7 d ago · updated just now
+          - listitem [ref=f1e459]:
+            - 'button "Severity Low, 21 percent Shift Mumbai sea-level pressure 1011 hPa vs 1010 hPa Mumbai sea-level pressure shifted up about 1.1 days ago: it has averaged 1011 hPa since then against a reference of 1010 hPa (needed 1011 hPa to fire; 27 samples). started 1.1 d ago · updated just now" [ref=f1e460] [cursor=pointer]':
+              - generic [ref=f1e461]:
+                - generic "Severity Low, 21 percent" [ref=f1e462]: Low
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e467]: Shift
+              - heading "Mumbai sea-level pressure" [level=3] [ref=f1e468]
+              - paragraph [ref=f1e469]: 1011 hPa vs 1010 hPa
+              - paragraph [ref=f1e470]: "Mumbai sea-level pressure shifted up about 1.1 days ago: it has averaged 1011 hPa since then against a reference of 1010 hPa (needed 1011 hPa to fire; 27 samples)."
+              - paragraph [ref=f1e471]: started 1.1 d ago · updated just now
+          - listitem [ref=f1e472]:
+            - 'button "Severity Low, 16 percent Shift Tokyo temperature 22.1°C vs 24.9°C Tokyo temperature shifted down about 2.44 days ago: it has averaged 22.1°C since then against a reference of 24.9°C (needed 22.7°C to fire; 59 samples). started 2.4 d ago · updated just now" [ref=f1e473] [cursor=pointer]':
+              - generic [ref=f1e474]:
+                - generic "Severity Low, 16 percent" [ref=f1e475]: Low
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e480]: Shift
+              - heading "Tokyo temperature" [level=3] [ref=f1e481]
+              - paragraph [ref=f1e482]: 22.1°C vs 24.9°C
+              - paragraph [ref=f1e483]: "Tokyo temperature shifted down about 2.44 days ago: it has averaged 22.1°C since then against a reference of 24.9°C (needed 22.7°C to fire; 59 samples)."
+              - paragraph [ref=f1e484]: started 2.4 d ago · updated just now
+          - listitem [ref=f1e485]:
+            - 'button "Severity Low, 14 percent Shift Lagos sea-level pressure 1012 hPa vs 1013 hPa Lagos sea-level pressure shifted down about 1.6 days ago: it has averaged 1012 hPa since then against a reference of 1013 hPa (needed 1012 hPa to fire; 39 samples). started 1.6 d ago · updated just now" [ref=f1e486] [cursor=pointer]':
+              - generic [ref=f1e487]:
+                - generic "Severity Low, 14 percent" [ref=f1e488]: Low
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e493]: Shift
+              - heading "Lagos sea-level pressure" [level=3] [ref=f1e494]
+              - paragraph [ref=f1e495]: 1012 hPa vs 1013 hPa
+              - paragraph [ref=f1e496]: "Lagos sea-level pressure shifted down about 1.6 days ago: it has averaged 1012 hPa since then against a reference of 1013 hPa (needed 1012 hPa to fire; 39 samples)."
+              - paragraph [ref=f1e497]: started 1.6 d ago · updated just now
+          - listitem [ref=f1e498]:
+            - 'button "Severity Low, 14 percent Shift Sydney PM2.5 4.69 μg/m³ vs 13.6 μg/m³ Sydney PM2.5 shifted down about 1.1 days ago: it has averaged 4.69 μg/m³ since then against a reference of 13.6 μg/m³ (needed 4.79 μg/m³ to fire; 27 samples). started 1.1 d ago · updated just now" [ref=f1e499] [cursor=pointer]':
+              - generic [ref=f1e500]:
+                - generic "Severity Low, 14 percent" [ref=f1e501]: Low
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e506]: Shift
+              - heading "Sydney PM2.5" [level=3] [ref=f1e507]
+              - paragraph [ref=f1e508]: 4.69 μg/m³ vs 13.6 μg/m³
+              - paragraph [ref=f1e509]: "Sydney PM2.5 shifted down about 1.1 days ago: it has averaged 4.69 μg/m³ since then against a reference of 13.6 μg/m³ (needed 4.79 μg/m³ to fire; 27 samples)."
+              - paragraph [ref=f1e510]: started 1.1 d ago · updated just now
+          - listitem [ref=f1e511]:
+            - 'button "Severity Low, 12 percent Shift New York wind gusts 23 km/h vs 14.8 km/h New York wind gusts shifted up about 2.77 days ago: it has averaged 23 km/h since then against a reference of 14.8 km/h (needed 21.8 km/h to fire; 67 samples). started 2.8 d ago · updated just now" [ref=f1e512] [cursor=pointer]':
+              - generic [ref=f1e513]:
+                - generic "Severity Low, 12 percent" [ref=f1e514]: Low
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e519]: Shift
+              - heading "New York wind gusts" [level=3] [ref=f1e520]
+              - paragraph [ref=f1e521]: 23 km/h vs 14.8 km/h
+              - paragraph [ref=f1e522]: "New York wind gusts shifted up about 2.77 days ago: it has averaged 23 km/h since then against a reference of 14.8 km/h (needed 21.8 km/h to fire; 67 samples)."
+              - paragraph [ref=f1e523]: started 2.8 d ago · updated just now
+          - listitem [ref=f1e524]:
+            - 'button "Severity Low, 12 percent Shift +1 Mumbai wind gusts 20.9 km/h vs 31.6 km/h Mumbai wind gusts shifted down about 3.6 days ago: it has averaged 20.9 km/h since then against a reference of 31.6 km/h (needed 22.8 km/h to fire; 87 samples). started 3.6 d ago · updated just now" [ref=f1e525] [cursor=pointer]':
+              - generic [ref=f1e526]:
+                - generic "Severity Low, 12 percent" [ref=f1e527]: Low
+                - generic [ref=f1e531]:
+                  - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e532]: Shift
+                  - generic "Also detected by Drift" [ref=f1e533]: "+1"
+              - heading "Mumbai wind gusts" [level=3] [ref=f1e534]
+              - paragraph [ref=f1e535]: 20.9 km/h vs 31.6 km/h
+              - paragraph [ref=f1e536]: "Mumbai wind gusts shifted down about 3.6 days ago: it has averaged 20.9 km/h since then against a reference of 31.6 km/h (needed 22.8 km/h to fire; 87 samples)."
+              - paragraph [ref=f1e537]: started 3.6 d ago · updated just now
+          - listitem [ref=f1e538]:
+            - 'button "Severity Low, 10 percent Shift New York temperature 25°C vs 22.3°C New York temperature shifted up about 2.52 days ago: it has averaged 25°C since then against a reference of 22.3°C (needed 24.8°C to fire; 61 samples). started 2.5 d ago · updated just now" [ref=f1e539] [cursor=pointer]':
+              - generic [ref=f1e540]:
+                - generic "Severity Low, 10 percent" [ref=f1e541]: Low
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e546]: Shift
+              - heading "New York temperature" [level=3] [ref=f1e547]
+              - paragraph [ref=f1e548]: 25°C vs 22.3°C
+              - paragraph [ref=f1e549]: "New York temperature shifted up about 2.52 days ago: it has averaged 25°C since then against a reference of 22.3°C (needed 24.8°C to fire; 61 samples)."
+              - paragraph [ref=f1e550]: started 2.5 d ago · updated just now
+          - listitem [ref=f1e551]:
+            - button "Severity Low, 9 percent Swarm Earthquake swarm, 8 events 8 vs 0.9 expected 8 earthquakes clustered within 50 km of 64.7°N 149.6°W in the last 1 day; the 30 days rate there predicts 0.9 (fires at 7; 26 baseline events). started 23 h ago · updated just now" [ref=f1e552] [cursor=pointer]:
+              - generic [ref=f1e553]:
+                - generic "Severity Low, 9 percent" [ref=f1e554]: Low
+                - generic "Haversine DBSCAN cluster judged against its own local baseline rate." [ref=f1e559]: Swarm
+              - heading "Earthquake swarm, 8 events" [level=3] [ref=f1e560]
+              - paragraph [ref=f1e561]: 8 vs 0.9 expected
+              - paragraph [ref=f1e562]: 8 earthquakes clustered within 50 km of 64.7°N 149.6°W in the last 1 day; the 30 days rate there predicts 0.9 (fires at 7; 26 baseline events).
+              - paragraph [ref=f1e563]: started 23 h ago · updated just now
+          - listitem [ref=f1e564]:
+            - 'button "Severity Low, 9 percent Shift Beijing PM2.5 118 μg/m³ vs 58 μg/m³ Beijing PM2.5 shifted up about 2.69 days ago: it has averaged 118 μg/m³ since then against a reference of 58 μg/m³ (needed 113 μg/m³ to fire; 65 samples). started 2.7 d ago · updated just now" [ref=f1e565] [cursor=pointer]':
+              - generic [ref=f1e566]:
+                - generic "Severity Low, 9 percent" [ref=f1e567]: Low
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e572]: Shift
+              - heading "Beijing PM2.5" [level=3] [ref=f1e573]
+              - paragraph [ref=f1e574]: 118 μg/m³ vs 58 μg/m³
+              - paragraph [ref=f1e575]: "Beijing PM2.5 shifted up about 2.69 days ago: it has averaged 118 μg/m³ since then against a reference of 58 μg/m³ (needed 113 μg/m³ to fire; 65 samples)."
+              - paragraph [ref=f1e576]: started 2.7 d ago · updated just now
+          - listitem [ref=f1e577]:
+            - 'button "Severity Low, 7 percent Shift Tokyo US AQI 94.4 vs 81 Tokyo US AQI shifted up about 2.48 days ago: it has averaged 94.4 since then against a reference of 81 (needed 94.1 to fire; 60 samples). started 2.5 d ago · updated just now" [ref=f1e578] [cursor=pointer]':
+              - generic [ref=f1e579]:
+                - generic "Severity Low, 7 percent" [ref=f1e580]: Low
+                - generic "Cumulative sum change-point test in reference-sigma units." [ref=f1e585]: Shift
+              - heading "Tokyo US AQI" [level=3] [ref=f1e586]
+              - paragraph [ref=f1e587]: 94.4 vs 81
+              - paragraph [ref=f1e588]: "Tokyo US AQI shifted up about 2.48 days ago: it has averaged 94.4 since then against a reference of 81 (needed 94.1 to fire; 60 samples)."
+              - paragraph [ref=f1e589]: started 2.5 d ago · updated just now
+    - region [ref=f1e51]:
+      - generic [ref=f1e52]:
+        - heading "Series" [level=2] [ref=f1e53]
+        - paragraph [ref=f1e54]: dashed line is the window median · space weather 24 h, weather and air 7 d
+      - list [ref=f1e55]:
+        - listitem [ref=f1e56]:
+          - generic [ref=f1e57]:
+            - generic [ref=f1e58]: Solar wind speed
+            - generic [ref=f1e60]:
+              - generic [ref=f1e61]: 346 km/s
+              - generic "difference from the window median" [ref=f1e590]: +7.1 km/s
+            - img "Solar wind speed, recent trend" [ref=f1e591]
+            - paragraph [ref=f1e64]: 7 min ago · 24 h
+        - listitem [ref=f1e65]:
+          - generic [ref=f1e66]:
+            - generic [ref=f1e67]: Solar wind density
+            - generic [ref=f1e69]:
+              - generic [ref=f1e70]: 3.51 p/cm³
+              - generic "difference from the window median" [ref=f1e594]: "-0.01 p/cm³"
+            - img "Solar wind density, recent trend" [ref=f1e595]
+            - paragraph [ref=f1e73]: 7 min ago · 24 h
+        - listitem [ref=f1e74]:
+          - generic [ref=f1e75]:
+            - generic [ref=f1e76]: Bz (GSM)
+            - generic [ref=f1e78]:
+              - generic [ref=f1e79]: "-4.7 nT"
+              - generic "difference from the window median" [ref=f1e598]: "-6.49 nT"
+            - img "Bz (GSM), recent trend" [ref=f1e599]
+            - paragraph [ref=f1e82]: 7 min ago · 24 h
+        - listitem [ref=f1e83]:
+          - generic [ref=f1e84]:
+            - generic [ref=f1e85]: Kp (1-min estimate)
+            - generic [ref=f1e87]:
+              - generic [ref=f1e88]: "0"
+              - generic "difference from the window median" [ref=f1e602]: "-0.67"
+            - img "Kp (1-min estimate), recent trend" [ref=f1e603]
+            - paragraph [ref=f1e91]: 7 min ago · 24 h
+        - listitem [ref=f1e110]:
+          - button "New York sea-level pressure, fly the globe there" [ref=f1e111] [cursor=pointer]:
+            - generic [ref=f1e112]:
+              - generic [ref=f1e113]: New York sea-level pressure
+              - generic [ref=f1e606]: signal
+            - generic [ref=f1e114]:
+              - generic [ref=f1e115]: 1011 hPa
+              - generic "difference from the window median" [ref=f1e607]: "-4.85 hPa"
+            - img "New York sea-level pressure, recent trend" [ref=f1e608]
+            - paragraph [ref=f1e118]: 30 min ago · 7 d
+        - listitem [ref=f1e611]:
+          - button "Sydney US AQI, fly the globe there" [ref=f1e612] [cursor=pointer]:
+            - generic [ref=f1e613]:
+              - generic [ref=f1e614]: Sydney US AQI
+              - generic [ref=f1e615]: signal
+            - generic [ref=f1e616]:
+              - generic [ref=f1e617]: "26"
+              - generic "difference from the window median" [ref=f1e618]: "-30.5"
+            - img "Sydney US AQI, recent trend" [ref=f1e620]
+            - paragraph [ref=f1e623]: 30 min ago · 7 d
+        - listitem [ref=f1e624]:
+          - button "Mexico City sea-level pressure, fly the globe there" [ref=f1e625] [cursor=pointer]:
+            - generic [ref=f1e626]:
+              - generic [ref=f1e627]: Mexico City sea-level pressure
+              - generic [ref=f1e628]: signal
+            - generic [ref=f1e629]:
+              - generic [ref=f1e630]: 1017 hPa
+              - generic "difference from the window median" [ref=f1e631]: "-3 hPa"
+            - img "Mexico City sea-level pressure, recent trend" [ref=f1e633]
+            - paragraph [ref=f1e636]: 30 min ago · 7 d
+        - listitem [ref=f1e637]:
+          - button "Beijing US AQI, fly the globe there" [ref=f1e638] [cursor=pointer]:
+            - generic [ref=f1e639]:
+              - generic [ref=f1e640]: Beijing US AQI
+              - generic [ref=f1e641]: signal
+            - generic [ref=f1e642]:
+              - generic [ref=f1e643]: "190"
+              - generic "difference from the window median" [ref=f1e644]: "+14"
+            - img "Beijing US AQI, recent trend" [ref=f1e646]
+            - paragraph [ref=f1e649]: 30 min ago · 7 d
+      - paragraph [ref=f1e128]: 77 series in memory · one-minute solar-wind files cover about 24 h, so their baselines are a day, not a week
+    - contentinfo [ref=f1e129]:
+      - generic [ref=f1e130]:
+        - paragraph [ref=f1e131]: "Every signal is a statistic over public data: a median, a control limit, a Poisson count. Nothing here is a forecast. Detectors and thresholds are documented in the open-source engine."
+        - list "Data credits" [ref=f1e132]:
+          - listitem [ref=f1e133]:
+            - link "USGS Earthquake Hazards Program" [ref=f1e134] [cursor=pointer]:
+              - /url: https://earthquake.usgs.gov/earthquakes/feed/
+          - listitem [ref=f1e135]:
+            - link "NOAA Space Weather Prediction Center" [ref=f1e136] [cursor=pointer]:
+              - /url: https://www.swpc.noaa.gov/
+          - listitem [ref=f1e137]:
+            - link "Weather data by Open-Meteo.com" [ref=f1e138] [cursor=pointer]:
+              - /url: https://open-meteo.com/
+            - generic [ref=f1e139]: (CC BY 4.0)
+          - listitem [ref=f1e140]:
+            - link "NASA EONET" [ref=f1e141] [cursor=pointer]:
+              - /url: https://eonet.gsfc.nasa.gov/
+          - listitem [ref=f1e142]:
+            - link "Where the ISS at?" [ref=f1e143] [cursor=pointer]:
+              - /url: https://wheretheiss.at/
+          - listitem [ref=f1e144]:
+            - link "Natural Earth via world-atlas" [ref=f1e145] [cursor=pointer]:
+              - /url: https://github.com/topojson/world-atlas
+          - listitem [ref=f1e146]:
+            - link "Source on GitHub" [ref=f1e147] [cursor=pointer]:
+              - /url: https://github.com/lalubalu/earth--
+  - alert [ref=f1e148]

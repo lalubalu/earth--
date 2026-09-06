@@ -54,13 +54,20 @@ export function detectCusum(
   const thresholdValue = mu0 + sign * (cfg.slack + cfg.decision / m) * sigma0;
   const startedAt = (inWindow[startIdx] as SeriesPoint).t;
 
+  // A tiny shift held for days accumulates a huge sum; severity should say how big the
+  // shift is, so it is the post-change mean's distance from the reference in sigmas.
+  const shiftSigmas = Math.abs(observed - mu0) / sigma0;
+  const severity = clamp01(
+    (shiftSigmas - cfg.slack) / Math.max(0.5, cfg.severityShiftSigmas - cfg.slack),
+  );
+
   const unit = ctx.descriptor?.unit;
   const label = seriesLabel(seriesId, ctx.descriptor);
   const candidate: Candidate = {
     id: `cusum:${seriesId}`,
     seriesId,
     detector: 'cusum',
-    severity: clamp01((ratio - 1) / 2),
+    severity,
     score: ratio,
     ratio,
     startedAt,

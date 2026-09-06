@@ -2,20 +2,28 @@
 import { fetchEonet } from './eonet';
 import { fetchIss } from './iss';
 import { fetchNoaa } from './noaa';
+import { FEED_INTERVALS, FEED_LABELS } from './intervals';
 import { fetchAirQuality, fetchOpenMeteo } from './openMeteo';
-import { HOUR, MINUTE, SECOND } from './types';
+import { SECOND } from './types';
 import type { FeedPayload, FeedSource, FeedSpec } from './types';
 import { fetchUsgsHour, fetchUsgsMonth } from './usgs';
 
-export const FEEDS: Record<FeedSource, FeedSpec> = {
-  'usgs-hour': { source: 'usgs-hour', label: 'USGS quakes (hour)', intervalMs: MINUTE, fetch: fetchUsgsHour },
-  'usgs-month': { source: 'usgs-month', label: 'USGS quakes (30 d)', intervalMs: HOUR, fetch: fetchUsgsMonth },
-  noaa: { source: 'noaa', label: 'NOAA space weather', intervalMs: MINUTE, fetch: fetchNoaa },
-  'open-meteo': { source: 'open-meteo', label: 'Open-Meteo weather', intervalMs: 15 * MINUTE, fetch: fetchOpenMeteo },
-  'air-quality': { source: 'air-quality', label: 'Open-Meteo air quality', intervalMs: 15 * MINUTE, fetch: fetchAirQuality },
-  eonet: { source: 'eonet', label: 'NASA EONET', intervalMs: 10 * MINUTE, fetch: fetchEonet },
-  iss: { source: 'iss', label: 'ISS', intervalMs: 10 * SECOND, fetch: fetchIss },
+const FETCHERS: Record<FeedSource, FeedSpec['fetch']> = {
+  'usgs-hour': fetchUsgsHour,
+  'usgs-month': fetchUsgsMonth,
+  noaa: fetchNoaa,
+  'open-meteo': fetchOpenMeteo,
+  'air-quality': fetchAirQuality,
+  eonet: fetchEonet,
+  iss: fetchIss,
 };
+
+export const FEEDS: Record<FeedSource, FeedSpec> = Object.fromEntries(
+  (Object.keys(FETCHERS) as FeedSource[]).map((source) => [
+    source,
+    { source, label: FEED_LABELS[source], intervalMs: FEED_INTERVALS[source], fetch: FETCHERS[source] },
+  ]),
+) as Record<FeedSource, FeedSpec>;
 
 /** Failed fetches are retried sooner than the poll interval, but never in a tight loop. */
 const FAILURE_TTL_MS = 30 * SECOND;

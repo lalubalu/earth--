@@ -68,6 +68,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
     baselineFraction: 0.5,
     slack: 0.5,
     decision: 5,
+    severityShiftSigmas: 3,
   },
   eventRate: {
     enabled: true,

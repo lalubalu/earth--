@@ -1,0 +1,122 @@
+- generic [active] [ref=e1]:
+  - link "Skip to signal feed" [ref=e2] [cursor=pointer]:
+    - /url: "#signals"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - heading "Earth Signals" [level=1] [ref=e6]
+        - paragraph [ref=e7]: public feeds, browser-side anomaly detection, explained
+      - generic [ref=e8]:
+        - list "Feed status" [ref=e9]:
+          - 'listitem "USGS quakes: loading no data yet polls every 1 min" [ref=e10]':
+            - generic [ref=e12]: USGS quakes
+            - generic [ref=e13]: loading
+          - 'listitem "USGS 30-day: loading no data yet polls every 1 h" [ref=e14]':
+            - generic [ref=e16]: USGS 30-day
+            - generic [ref=e17]: loading
+          - 'listitem "NOAA SWPC: loading no data yet polls every 1 min" [ref=e18]':
+            - generic [ref=e20]: NOAA SWPC
+            - generic [ref=e21]: loading
+          - 'listitem "Open-Meteo: loading no data yet polls every 15 min" [ref=e22]':
+            - generic [ref=e24]: Open-Meteo
+            - generic [ref=e25]: loading
+          - 'listitem "Air quality: loading no data yet polls every 15 min" [ref=e26]':
+            - generic [ref=e28]: Air quality
+            - generic [ref=e29]: loading
+          - 'listitem "NASA EONET: loading no data yet polls every 10 min" [ref=e30]':
+            - generic [ref=e32]: NASA EONET
+            - generic [ref=e33]: loading
+          - 'listitem "ISS: loading no data yet polls every 10 s" [ref=e34]':
+            - generic [ref=e36]: ISS
+            - generic [ref=e37]: loading
+        - paragraph [ref=e38]: waiting for first feed
+    - main [ref=e39]:
+      - region "Globe" [ref=e40]:
+        - paragraph [ref=e41]: globe pending · 0 events loaded
+      - complementary [ref=e42]:
+        - generic [ref=e43]:
+          - heading "Signals 0" [level=2] [ref=e44]
+          - generic [ref=e45]: ranked by severity, then recency
+        - generic [ref=e48]:
+          - paragraph [ref=e49]: Waiting for the first feeds
+          - paragraph [ref=e50]: Feeds are polled every 10 s to 15 min; the engine runs in a Web Worker whenever data changes.
+    - region [ref=e51]:
+      - generic [ref=e52]:
+        - heading "Series" [level=2] [ref=e53]
+        - paragraph [ref=e54]: dashed line is the window median · space weather 24 h, weather and air 7 d
+      - list [ref=e55]:
+        - listitem [ref=e56]:
+          - generic [ref=e57]:
+            - generic [ref=e58]: Solar wind speed
+            - generic [ref=e60]: —
+            - 'img "Solar wind speed: not enough data" [ref=e63]'
+            - paragraph [ref=e64]: no data · 24 h
+        - listitem [ref=e65]:
+          - generic [ref=e66]:
+            - generic [ref=e67]: Solar wind density
+            - generic [ref=e69]: —
+            - 'img "Solar wind density: not enough data" [ref=e72]'
+            - paragraph [ref=e73]: no data · 24 h
+        - listitem [ref=e74]:
+          - generic [ref=e75]:
+            - generic [ref=e76]: Bz (GSM)
+            - generic [ref=e78]: —
+            - 'img "Bz (GSM): not enough data" [ref=e81]'
+            - paragraph [ref=e82]: no data · 24 h
+        - listitem [ref=e83]:
+          - generic [ref=e84]:
+            - generic [ref=e85]: Kp (1-min estimate)
+            - generic [ref=e87]: —
+            - 'img "Kp (1-min estimate): not enough data" [ref=e90]'
+            - paragraph [ref=e91]: no data · 24 h
+        - listitem [ref=e92]:
+          - button "London temperature, fly the globe there" [ref=e93] [cursor=pointer]:
+            - generic [ref=e94]: London temperature
+            - generic [ref=e96]: —
+            - 'img "London temperature: not enough data" [ref=e99]'
+            - paragraph [ref=e100]: no data · 7 d
+        - listitem [ref=e101]:
+          - button "Tokyo temperature, fly the globe there" [ref=e102] [cursor=pointer]:
+            - generic [ref=e103]: Tokyo temperature
+            - generic [ref=e105]: —
+            - 'img "Tokyo temperature: not enough data" [ref=e108]'
+            - paragraph [ref=e109]: no data · 7 d
+        - listitem [ref=e110]:
+          - button "New York sea-level pressure, fly the globe there" [ref=e111] [cursor=pointer]:
+            - generic [ref=e112]: New York sea-level pressure
+            - generic [ref=e114]: —
+            - 'img "New York sea-level pressure: not enough data" [ref=e117]'
+            - paragraph [ref=e118]: no data · 7 d
+        - listitem [ref=e119]:
+          - button "Beijing PM2.5, fly the globe there" [ref=e120] [cursor=pointer]:
+            - generic [ref=e121]: Beijing PM2.5
+            - generic [ref=e123]: —
+            - 'img "Beijing PM2.5: not enough data" [ref=e126]'
+            - paragraph [ref=e127]: no data · 7 d
+      - paragraph [ref=e128]: 0 series in memory · one-minute solar-wind files cover about 24 h, so their baselines are a day, not a week
+    - contentinfo [ref=e129]:
+      - generic [ref=e130]:
+        - paragraph [ref=e131]: "Every signal is a statistic over public data: a median, a control limit, a Poisson count. Nothing here is a forecast. Detectors and thresholds are documented in the open-source engine."
+        - list "Data credits" [ref=e132]:
+          - listitem [ref=e133]:
+            - link "USGS Earthquake Hazards Program" [ref=e134] [cursor=pointer]:
+              - /url: https://earthquake.usgs.gov/earthquakes/feed/
+          - listitem [ref=e135]:
+            - link "NOAA Space Weather Prediction Center" [ref=e136] [cursor=pointer]:
+              - /url: https://www.swpc.noaa.gov/
+          - listitem [ref=e137]:
+            - link "Weather data by Open-Meteo.com" [ref=e138] [cursor=pointer]:
+              - /url: https://open-meteo.com/
+            - generic [ref=e139]: (CC BY 4.0)
+          - listitem [ref=e140]:
+            - link "NASA EONET" [ref=e141] [cursor=pointer]:
+              - /url: https://eonet.gsfc.nasa.gov/
+          - listitem [ref=e142]:
+            - link "Where the ISS at?" [ref=e143] [cursor=pointer]:
+              - /url: https://wheretheiss.at/
+          - listitem [ref=e144]:
+            - link "Natural Earth via world-atlas" [ref=e145] [cursor=pointer]:
+              - /url: https://github.com/topojson/world-atlas
+          - listitem [ref=e146]:
+            - link "Source on GitHub" [ref=e147] [cursor=pointer]:
+              - /url: https://github.com/lalubalu/earth--
