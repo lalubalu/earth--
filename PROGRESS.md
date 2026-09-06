@@ -11,7 +11,7 @@ Resume point for any fresh session. Read this before touching code.
 | 3 | Feed adapters + `/api/feeds/[source]` route handlers, verified live | done |
 | 4 | Dashboard shell, Web Worker wiring, signal feed, D3 charts | done |
 | 5 | WebGL globe and GSAP motion | done |
-| 6 | AI layer (`/api/brief`, `/api/ask`) with keyless fallback | todo |
+| 6 | AI layer (`/api/brief`, `/api/ask`) with keyless fallback | done |
 | 7 | README, docs, performance and accessibility pass | todo |
 
 ## Decisions
@@ -48,6 +48,8 @@ Resume point for any fresh session. Read this before touching code.
 - Phase 5: globe in `src/components/globe`: runtime canvas basemap from `world-atlas` land-110m through d3-geo (no binary texture), custom earth shader with a camera-relative terminator and rim, back-face fresnel atmosphere, one `InstancedMesh` of tangent quads with per-instance attributes (magnitude, phase, shape, tone, age, selected) and a GLSL ripple; kind is encoded as shape (ring / disc / diamond / dot) so colour is never the only cue. `frameloop="demand"` with a 24 fps ticker only while the panel is on screen, the tab visible, and motion allowed. GSAP fly-to slerps the camera direction; reduced motion jumps. Click-to-pick shows the event; card open flies there. GSAP card entrances, new-signal border flash, drawer slide, ticking numbers in the chart strip, all behind `gsap.matchMedia('(prefers-reduced-motion: no-preference)')`. ESLint's `react-hooks/immutability` is off for `src/components/globe/**` because three.js objects are mutated by design.
 - Marker filter: quakes from the last 24 h plus M4.5+ over 30 days, every EONET event, the ISS, and whatever the selected signal references (cap 4000).
 
+- Phase 6: `/api/brief` (GET) reruns the engine over the server's own memoized feed payloads rather than trusting client-posted signals, because its result is cached for everyone for 10 minutes; a poisoned POST would have poisoned the brief. `/api/ask` (POST) takes the client's signals and per-series summaries (validated, capped) plus the question, forces a tool call named `answer`, validates the tool input with zod, then clamps chart series ids and time range to what the client actually has. Per-IP sliding-window limits (30 briefs / 12 asks per 10 min), 413 on bodies over 400 KB. No key: templated brief and a label-matching offline answer that says so. Model errors (verified against a 401 with a bogus key) degrade to the fallback with a `degraded` reason. `.env.example` documents `ANTHROPIC_API_KEY` and `ANTHROPIC_MODEL` (default `claude-sonnet-5`). The successful Claude path is unverified here: no key on this machine.
+
 ## Next
 
-- Phase 6: `/api/brief` and `/api/ask` route handlers with the Anthropic SDK, zod-validated answers, per-IP rate limit, 10-minute brief cache, keyless fallback to templated summaries; brief panel and ask box in the UI.
+- Phase 7: root README with Mermaid architecture, CONTRIBUTING.md, Lighthouse pass, final accessibility check, final commit, push to GitHub.

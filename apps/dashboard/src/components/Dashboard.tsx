@@ -8,6 +8,8 @@ import { DataContext, indexEvents, indexSeries } from '@/lib/data';
 import type { DashboardData } from '@/lib/data';
 import { useSignalEngine } from '@/lib/engine/useSignalEngine';
 import { useFeeds } from '@/lib/feeds/client';
+import { AskBox } from './ai/AskBox';
+import { BriefPanel } from './ai/BriefPanel';
 import { ChartStrip } from './charts/ChartStrip';
 import { Footer } from './Footer';
 import { GlobePanel } from './globe/GlobePanel';
@@ -40,6 +42,10 @@ export function Dashboard() {
           <GlobePanel />
           <SignalFeed />
         </main>
+        <div className="mt-4 grid grid-cols-1 items-start gap-4 lg:mt-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.9fr)] lg:gap-6">
+          <BriefPanel />
+          <AskBox />
+        </div>
         <ChartStrip />
         <Footer />
       </div>

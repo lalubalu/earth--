@@ -1,0 +1,166 @@
+- generic [active] [ref=f5e1]:
+  - link "Skip to signal feed" [ref=f5e2] [cursor=pointer]:
+    - /url: "#signals"
+  - generic [ref=f5e3]:
+    - banner [ref=f5e4]:
+      - generic [ref=f5e5]:
+        - heading "Earth Signals" [level=1] [ref=f5e6]
+        - paragraph [ref=f5e7]: public feeds, browser-side anomaly detection, explained
+      - generic [ref=f5e8]:
+        - list "Feed status" [ref=f5e9]:
+          - 'listitem "USGS quakes: loading no data yet polls every 1 min" [ref=f5e10]':
+            - generic [ref=f5e12]: USGS quakes
+            - generic [ref=f5e13]: loading
+          - 'listitem "USGS 30-day: loading no data yet polls every 1 h" [ref=f5e14]':
+            - generic [ref=f5e16]: USGS 30-day
+            - generic [ref=f5e17]: loading
+          - 'listitem "NOAA SWPC: loading no data yet polls every 1 min" [ref=f5e18]':
+            - generic [ref=f5e20]: NOAA SWPC
+            - generic [ref=f5e21]: loading
+          - 'listitem "Open-Meteo: loading no data yet polls every 15 min" [ref=f5e22]':
+            - generic [ref=f5e24]: Open-Meteo
+            - generic [ref=f5e25]: loading
+          - 'listitem "Air quality: loading no data yet polls every 15 min" [ref=f5e26]':
+            - generic [ref=f5e28]: Air quality
+            - generic [ref=f5e29]: loading
+          - 'listitem "NASA EONET: loading no data yet polls every 10 min" [ref=f5e30]':
+            - generic [ref=f5e32]: NASA EONET
+            - generic [ref=f5e33]: loading
+          - 'listitem "ISS: loading no data yet polls every 10 s" [ref=f5e34]':
+            - generic [ref=f5e36]: ISS
+            - generic [ref=f5e37]: loading
+        - paragraph [ref=f5e38]: waiting for first feed
+    - main [ref=f5e39]:
+      - region "Globe of recent events" [ref=f5e40]:
+        - paragraph [ref=f5e41]: loading globe
+        - generic:
+          - paragraph: 0 markers · quakes last 24 h and M4.5+ 30 d · drag to orbit, wheel to zoom
+          - paragraph: motion reduced
+        - list "Marker legend":
+          - listitem:
+            - generic [aria-hidden]: ◎
+            - generic: earthquake, size by magnitude
+            - generic: "0"
+          - listitem:
+            - generic [aria-hidden]: ●
+            - generic: wildfire / volcano
+            - generic: "0"
+          - listitem:
+            - generic [aria-hidden]: ◆
+            - generic: storm / ice
+            - generic: "0"
+          - listitem:
+            - generic [aria-hidden]: ⊙
+            - generic: ISS
+            - generic: "0"
+      - complementary [ref=f5e42]:
+        - generic [ref=f5e43]:
+          - heading "Signals 0" [level=2] [ref=f5e44]
+          - generic [ref=f5e45]: ranked by severity, then recency
+        - generic [ref=f5e48]:
+          - paragraph [ref=f5e49]: Waiting for the first feeds
+          - paragraph [ref=f5e50]: Feeds are polled every 10 s to 15 min; the engine runs in a Web Worker whenever data changes.
+    - generic [ref=f5e51]:
+      - region [ref=f5e52]:
+        - generic [ref=f5e53]:
+          - heading "Brief" [level=2] [ref=f5e54]
+          - paragraph [ref=f5e55]: generating
+        - paragraph [ref=f5e56]: Reading the current signals.
+      - region [ref=f5e57]:
+        - generic [ref=f5e58]:
+          - heading "Ask" [level=2] [ref=f5e59]
+          - paragraph [ref=f5e60]: answers come with the chart that backs them
+        - generic [ref=f5e61]:
+          - generic [ref=f5e62]: Question about the current signals
+          - textbox "Question about the current signals" [ref=f5e63]:
+            - /placeholder: Ask about a series, a city, or a signal
+          - button "ask" [disabled] [ref=f5e64] [cursor=pointer]
+        - list "Example questions" [ref=f5e65]:
+          - listitem [ref=f5e66]:
+            - button "What is the solar wind doing right now?" [ref=f5e67] [cursor=pointer]
+          - listitem [ref=f5e68]:
+            - button "Which city has the worst air quality this week?" [ref=f5e69] [cursor=pointer]
+          - listitem [ref=f5e70]:
+            - button "Show London pressure over the last three days" [ref=f5e71] [cursor=pointer]
+          - listitem [ref=f5e72]:
+            - button "Where are the strongest signals?" [ref=f5e73] [cursor=pointer]
+    - region [ref=f5e74]:
+      - generic [ref=f5e75]:
+        - heading "Series" [level=2] [ref=f5e76]
+        - paragraph [ref=f5e77]: dashed line is the window median · space weather 24 h, weather and air 7 d
+      - list [ref=f5e78]:
+        - listitem [ref=f5e79]:
+          - generic [ref=f5e80]:
+            - generic [ref=f5e81]: Solar wind speed
+            - generic [ref=f5e83]: —
+            - 'img "Solar wind speed: not enough data" [ref=f5e86]'
+            - paragraph [ref=f5e87]: no data · 24 h
+        - listitem [ref=f5e88]:
+          - generic [ref=f5e89]:
+            - generic [ref=f5e90]: Solar wind density
+            - generic [ref=f5e92]: —
+            - 'img "Solar wind density: not enough data" [ref=f5e95]'
+            - paragraph [ref=f5e96]: no data · 24 h
+        - listitem [ref=f5e97]:
+          - generic [ref=f5e98]:
+            - generic [ref=f5e99]: Bz (GSM)
+            - generic [ref=f5e101]: —
+            - 'img "Bz (GSM): not enough data" [ref=f5e104]'
+            - paragraph [ref=f5e105]: no data · 24 h
+        - listitem [ref=f5e106]:
+          - generic [ref=f5e107]:
+            - generic [ref=f5e108]: Kp (1-min estimate)
+            - generic [ref=f5e110]: —
+            - 'img "Kp (1-min estimate): not enough data" [ref=f5e113]'
+            - paragraph [ref=f5e114]: no data · 24 h
+        - listitem [ref=f5e115]:
+          - button "London temperature, fly the globe there" [ref=f5e116] [cursor=pointer]:
+            - generic [ref=f5e117]: London temperature
+            - generic [ref=f5e119]: —
+            - 'img "London temperature: not enough data" [ref=f5e122]'
+            - paragraph [ref=f5e123]: no data · 7 d
+        - listitem [ref=f5e124]:
+          - button "Tokyo temperature, fly the globe there" [ref=f5e125] [cursor=pointer]:
+            - generic [ref=f5e126]: Tokyo temperature
+            - generic [ref=f5e128]: —
+            - 'img "Tokyo temperature: not enough data" [ref=f5e131]'
+            - paragraph [ref=f5e132]: no data · 7 d
+        - listitem [ref=f5e133]:
+          - button "New York sea-level pressure, fly the globe there" [ref=f5e134] [cursor=pointer]:
+            - generic [ref=f5e135]: New York sea-level pressure
+            - generic [ref=f5e137]: —
+            - 'img "New York sea-level pressure: not enough data" [ref=f5e140]'
+            - paragraph [ref=f5e141]: no data · 7 d
+        - listitem [ref=f5e142]:
+          - button "Beijing PM2.5, fly the globe there" [ref=f5e143] [cursor=pointer]:
+            - generic [ref=f5e144]: Beijing PM2.5
+            - generic [ref=f5e146]: —
+            - 'img "Beijing PM2.5: not enough data" [ref=f5e149]'
+            - paragraph [ref=f5e150]: no data · 7 d
+      - paragraph [ref=f5e151]: 0 series in memory · one-minute solar-wind files cover about 24 h, so their baselines are a day, not a week
+    - contentinfo [ref=f5e152]:
+      - generic [ref=f5e153]:
+        - paragraph [ref=f5e154]: "Every signal is a statistic over public data: a median, a control limit, a Poisson count. Nothing here is a forecast. Detectors and thresholds are documented in the open-source engine."
+        - list "Data credits" [ref=f5e155]:
+          - listitem [ref=f5e156]:
+            - link "USGS Earthquake Hazards Program" [ref=f5e157] [cursor=pointer]:
+              - /url: https://earthquake.usgs.gov/earthquakes/feed/
+          - listitem [ref=f5e158]:
+            - link "NOAA Space Weather Prediction Center" [ref=f5e159] [cursor=pointer]:
+              - /url: https://www.swpc.noaa.gov/
+          - listitem [ref=f5e160]:
+            - link "Weather data by Open-Meteo.com" [ref=f5e161] [cursor=pointer]:
+              - /url: https://open-meteo.com/
+            - generic [ref=f5e162]: (CC BY 4.0)
+          - listitem [ref=f5e163]:
+            - link "NASA EONET" [ref=f5e164] [cursor=pointer]:
+              - /url: https://eonet.gsfc.nasa.gov/
+          - listitem [ref=f5e165]:
+            - link "Where the ISS at?" [ref=f5e166] [cursor=pointer]:
+              - /url: https://wheretheiss.at/
+          - listitem [ref=f5e167]:
+            - link "Natural Earth via world-atlas" [ref=f5e168] [cursor=pointer]:
+              - /url: https://github.com/topojson/world-atlas
+          - listitem [ref=f5e169]:
+            - link "Source on GitHub" [ref=f5e170] [cursor=pointer]:
+              - /url: https://github.com/lalubalu/earth--
