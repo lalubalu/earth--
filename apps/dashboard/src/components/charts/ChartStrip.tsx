@@ -10,6 +10,7 @@ import { DESCRIPTOR_BY_ID } from '@/lib/engine/descriptors';
 import { NOAA_SERIES } from '@/lib/feeds/noaa';
 import { formatAgo } from '@/lib/format';
 import { useUi } from '@/store/ui';
+import { TickingNumber } from '../motion/TickingNumber';
 import { Sparkline } from './Sparkline';
 
 const HOUR = 3_600_000;
@@ -102,9 +103,15 @@ export function ChartStrip() {
                 ) : null}
               </div>
               <div className="mt-1 flex flex-wrap items-baseline gap-x-2">
-                <span className="font-display text-[26px] leading-none text-ink">
-                  {tile.last ? fmtValue(tile.last.v, tile.unit) : '—'}
-                </span>
+                {tile.last ? (
+                  <TickingNumber
+                    value={tile.last.v}
+                    format={(v) => fmtValue(v, tile.unit)}
+                    className="font-display text-[26px] leading-none text-ink"
+                  />
+                ) : (
+                  <span className="font-display text-[26px] leading-none text-ink">—</span>
+                )}
                 {delta !== null ? (
                   <span className="font-mono text-[11px] text-ink-3" title="difference from the window median">
                     {delta >= 0 ? '+' : ''}

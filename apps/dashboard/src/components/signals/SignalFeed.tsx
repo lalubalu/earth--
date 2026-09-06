@@ -5,7 +5,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import { useData } from '@/lib/data';
 import { FEED_SOURCES } from '@/lib/feeds/types';
-import { signalTitle } from '@/lib/signals';
+import { signalLocation, signalTitle } from '@/lib/signals';
 import { useUi } from '@/store/ui';
 import { SignalCard } from './SignalCard';
 
@@ -15,7 +15,7 @@ import { SignalCard } from './SignalCard';
  */
 export function SignalFeed() {
   const { now, signals, eventsById, engine, feeds } = useData();
-  const { selectedSignalId, openDrawer, showCooling, toggleCooling } = useUi();
+  const { selectedSignalId, openDrawer, flyTo, showCooling, toggleCooling } = useUi();
   const listRef = useRef<HTMLOListElement>(null);
   const [focusIndexRaw, setFocusIndex] = useState(0);
   const [tracked, setTracked] = useState<{ signals: typeof signals; newIds: Set<string>; announcement: string }>(
@@ -145,10 +145,13 @@ export function SignalFeed() {
               eventsById={eventsById}
               selected={signal.id === selectedSignalId}
               tabIndex={i === focusIndex ? 0 : -1}
+              index={i}
               isNew={tracked.newIds.has(signal.id)}
               onOpen={(id) => {
                 setFocusIndex(i);
                 openDrawer(id);
+                const where = signalLocation(signal);
+                if (where) flyTo(where.lat, where.lon);
               }}
               onKeyDown={onKeyDown}
             />

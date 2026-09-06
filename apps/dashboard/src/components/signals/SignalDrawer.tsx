@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 import { fmtNum, fmtValue } from '@lalubalu/signal-engine';
 import { useData } from '@/lib/data';
 import { DESCRIPTOR_BY_ID } from '@/lib/engine/descriptors';
@@ -26,7 +27,16 @@ export function SignalDrawer() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (drawerOpen && signal && !el.open) el.showModal();
+    if (drawerOpen && signal && !el.open) {
+      el.showModal();
+      const panel = el.firstElementChild;
+      if (panel) {
+        const mm = gsap.matchMedia();
+        mm.add('(prefers-reduced-motion: no-preference)', () => {
+          gsap.fromTo(panel, { x: 28, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: 'power3.out' });
+        });
+      }
+    }
     if ((!drawerOpen || !signal) && el.open) el.close();
   }, [drawerOpen, signal]);
 

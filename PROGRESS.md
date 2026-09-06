@@ -10,7 +10,7 @@ Resume point for any fresh session. Read this before touching code.
 | 2 | `packages/signal-engine` with Vitest suite | done |
 | 3 | Feed adapters + `/api/feeds/[source]` route handlers, verified live | done |
 | 4 | Dashboard shell, Web Worker wiring, signal feed, D3 charts | done |
-| 5 | WebGL globe and GSAP motion | todo |
+| 5 | WebGL globe and GSAP motion | done |
 | 6 | AI layer (`/api/brief`, `/api/ask`) with keyless fallback | todo |
 | 7 | README, docs, performance and accessibility pass | todo |
 
@@ -45,6 +45,9 @@ Resume point for any fresh session. Read this before touching code.
 - Phase 4: shell with Instrument Serif via `next/font/local`, Tailwind 4 `@theme` tokens (one amber accent), TanStack Query polling (`useFeeds` with `combine`), engine in a module Web Worker (`engine.worker.ts`, main-thread fallback), ranked feed with roving tabindex + `aria-live`, `<dialog>` drawer with D3 evidence charts (series line + baseline/threshold/observed, event histogram vs expected rate, magnitude scale for rule hits), chart strip of small multiples. Verified in Chromium at 1440 and 375 px against live feeds: 77 series, ~11k events, engine ~40 ms in the worker.
 - **Tuning after the first live run:** CUSUM severity is now the shift size in reference sigmas (not the accumulated sum), the dashboard uses `cusum { slack 0.75, decision 8 }` for autocorrelated hourly weather, and `minSigma` floors were raised to practical-significance levels (pressure 4 hPa, AQI 12, PM2.5 8, solar wind speed 20 km/s, density 1.5, Bz 2 nT, Kp 1). Signal count on live data went from the 50 cap to ~28.
 
+- Phase 5: globe in `src/components/globe`: runtime canvas basemap from `world-atlas` land-110m through d3-geo (no binary texture), custom earth shader with a camera-relative terminator and rim, back-face fresnel atmosphere, one `InstancedMesh` of tangent quads with per-instance attributes (magnitude, phase, shape, tone, age, selected) and a GLSL ripple; kind is encoded as shape (ring / disc / diamond / dot) so colour is never the only cue. `frameloop="demand"` with a 24 fps ticker only while the panel is on screen, the tab visible, and motion allowed. GSAP fly-to slerps the camera direction; reduced motion jumps. Click-to-pick shows the event; card open flies there. GSAP card entrances, new-signal border flash, drawer slide, ticking numbers in the chart strip, all behind `gsap.matchMedia('(prefers-reduced-motion: no-preference)')`. ESLint's `react-hooks/immutability` is off for `src/components/globe/**` because three.js objects are mutated by design.
+- Marker filter: quakes from the last 24 h plus M4.5+ over 30 days, every EONET event, the ISS, and whatever the selected signal references (cap 4000).
+
 ## Next
 
-- Phase 5: WebGL globe (`react-three-fiber` + drei, instanced GLSL markers, atmosphere fresnel, on-demand rendering, GSAP fly-to) and GSAP card entrances / number ticks with reduced-motion handling.
+- Phase 6: `/api/brief` and `/api/ask` route handlers with the Anthropic SDK, zod-validated answers, per-IP rate limit, 10-minute brief cache, keyless fallback to templated summaries; brief panel and ask box in the UI.

@@ -41,6 +41,7 @@
     "@types/react-dom": "^19.2.7",
     "@types/three": "^0.185.4",
     "@types/topojson-client": "^3.1.5",
+    "@types/topojson-specification": "^1.0.5",
     "eslint": "^9.39.0",
     "eslint-config-next": "^16.3.4",
     "tailwindcss": "^4.3.3",
