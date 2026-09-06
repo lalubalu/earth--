@@ -58,12 +58,14 @@ export function styleFor(kind: string): KindStyle {
  */
 export function buildMarkers(
   events: readonly FeedEvent[],
+  iss: FeedEvent | null,
   now: number,
   selected: Signal | undefined,
 ): Marker[] {
   const wanted = new Set(selected?.eventIds ?? []);
   const out: Marker[] = [];
-  for (const e of events) {
+  const all = iss ? [...events, iss] : events;
+  for (const e of all) {
     const isQuake = e.kind === 'earthquake';
     const ageMs = now - e.t;
     const keep =
@@ -93,7 +95,7 @@ export function buildMarkers(
 }
 
 export function countByKind(events: readonly FeedEvent[], now: number): Record<string, number> {
-  const counts: Record<string, number> = {};
+  const counts: Record<string, number> = { iss: 1 };
   for (const e of events) {
     if (e.kind === 'earthquake' && now - e.t > DAY) continue;
     counts[e.kind] = (counts[e.kind] ?? 0) + 1;

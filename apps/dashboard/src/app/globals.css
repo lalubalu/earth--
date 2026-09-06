@@ -83,6 +83,21 @@ a {
   border: 0;
 }
 
+/* New cards flash their left border, then settle; a CSS keyframe costs no JS per frame. */
+@keyframes new-card {
+  0%,
+  40% {
+    border-left-color: var(--color-accent-2);
+  }
+  100% {
+    border-left-color: var(--color-line-2);
+  }
+}
+
+[data-signal-card][data-new] {
+  animation: new-card 3s ease-out both;
+}
+
 @keyframes pulse-dot {
   0%,
   100% {

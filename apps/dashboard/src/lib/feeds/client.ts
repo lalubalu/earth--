@@ -3,7 +3,7 @@
 
 import { useQueries } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { SeriesPoint } from '@lalubalu/signal-engine';
 import { FEED_INTERVALS } from './intervals';
 import { FEED_SOURCES } from './types';
@@ -22,9 +22,12 @@ export interface FeedState {
 
 export interface FeedsSnapshot {
   feeds: Record<FeedSource, FeedState>;
+  /** Every source except the ISS, which is a marker rather than a measurement. */
   series: SeriesPoint[];
   events: FeedEvent[];
-  /** Changes whenever any payload changes; a cheap dependency for effects. */
+  /** The ISS position, kept apart so its 10 s cadence never re-indexes everything else. */
+  iss: FeedEvent | null;
+  /** Changes whenever a non-ISS payload changes; a cheap dependency for effects. */
   version: string;
 }
 
@@ -64,11 +67,20 @@ function healthOf(source: FeedSource, slice: Slice, now: number): FeedHealth {
  * Seven polled queries merged into one snapshot. The hour USGS feed is listed after the
  * month feed so its fresher copies of overlapping events win the engine's id dedupe.
  */
-export function useFeeds(now: number): FeedsSnapshot {
+/**
+ * `heavyAllowed` gates the 30-day USGS file, the one heavy payload. On a slow connection
+ * it would hold up the first signals, so the dashboard passes true once the engine has
+ * produced a first result (or after a few seconds); the engine runs again when the
+ * baseline arrives and the event-rate and swarm detectors join in.
+ */
+export function useFeeds(now: number, heavyAllowed: boolean): FeedsSnapshot {
+  const [timedOut, setTimedOut] = useState(false);
+  const monthEnabled = heavyAllowed || timedOut;
   const slices = useQueries({
     queries: FEED_SOURCES.map((source) => ({
       queryKey: ['feed', source],
       queryFn: () => fetchFeed(source),
+      enabled: source !== 'usgs-month' || monthEnabled,
       refetchInterval: FEED_INTERVALS[source],
       staleTime: FEED_INTERVALS[source],
       // Keep the last payload on screen while a refetch fails.
@@ -76,20 +88,32 @@ export function useFeeds(now: number): FeedsSnapshot {
     })),
     combine,
   });
+  useEffect(() => {
+    if (monthEnabled) return;
+    const t = setTimeout(() => setTimedOut(true), 6_000);
+    return () => clearTimeout(t);
+  }, [monthEnabled]);
 
-  // `slices` only changes identity when a query result changed, so the merge is cheap.
+  const issIndex = FEED_SOURCES.indexOf('iss');
+  const bulk = slices.filter((_, i) => i !== issIndex);
+  const issPayload = slices[issIndex]?.payload;
+  // fetchedAt is the server's stamp per payload, so this key changes exactly when a non-ISS
+  // payload does; the ISS poll must not rebuild 25k records every ten seconds.
+  const bulkKey = bulk.map((b) => b.payload?.fetchedAt ?? 0).join('.');
+
   const merged = useMemo(() => {
     const series: SeriesPoint[] = [];
     const events: FeedEvent[] = [];
     const stamps: number[] = [];
-    for (const slice of slices) {
+    for (const slice of bulk) {
       if (!slice.payload) continue;
       series.push(...slice.payload.series);
       events.push(...slice.payload.events);
       stamps.push(slice.payload.fetchedAt);
     }
     return { series, events, version: stamps.join('.') };
-  }, [slices]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bulkKey]);
 
   return useMemo(() => {
     const feeds = {} as Record<FeedSource, FeedState>;
@@ -102,6 +126,6 @@ export function useFeeds(now: number): FeedsSnapshot {
       if (err) state.error = err;
       feeds[source] = state;
     });
-    return { feeds, ...merged };
-  }, [slices, merged, now]);
+    return { feeds, ...merged, iss: issPayload?.events[0] ?? null };
+  }, [slices, merged, now, issPayload]);
 }

@@ -16,7 +16,16 @@ export function usgsEventUrl(id: string): string {
  * properties { mag (nullable), place, time (ms), type: earthquake | quarry blast | explosion |
  * ice quake | landslide, url }; geometry.coordinates [lon, lat, depthKm].
  */
-export function parseUsgs(body: unknown): { events: FeedEvent[]; generated?: number } {
+export interface ParseUsgsOptions {
+  /** Keep the place string only at or above this magnitude; 11k labels are 600 KB. */
+  labelMinMagnitude?: number;
+}
+
+export function parseUsgs(
+  body: unknown,
+  options: ParseUsgsOptions = {},
+): { events: FeedEvent[]; generated?: number } {
+  const labelMin = options.labelMinMagnitude ?? -Infinity;
   if (!isRecord(body) || !Array.isArray(body.features)) {
     throw new Error('USGS: not a GeoJSON FeatureCollection');
   }
@@ -37,15 +46,15 @@ export function parseUsgs(body: unknown): { events: FeedEvent[]; generated?: num
       id,
       source: 'usgs',
       kind: type === 'earthquake' ? 'earthquake' : type.replace(/\s+/g, '-'),
-      lat,
-      lon,
+      lat: round(lat, 3),
+      lon: round(lon, 3),
       t,
-      magnitude: mag,
+      magnitude: round(mag, 2),
     };
-    const label = str(f.properties.place) ?? str(f.properties.title);
+    const label = mag >= labelMin ? (str(f.properties.place) ?? str(f.properties.title)) : null;
     if (label) event.label = label;
     const depth = num(coords[2]);
-    if (depth !== null) event.depthKm = depth;
+    if (depth !== null) event.depthKm = round(depth, 1);
     // The event page URL is derivable from the id; shipping 11k copies of it is 800 KB.
     events.push(event);
   }
@@ -54,15 +63,21 @@ export function parseUsgs(body: unknown): { events: FeedEvent[]; generated?: num
   return out;
 }
 
+function round(x: number, digits: number): number {
+  const f = 10 ** digits;
+  return Math.round(x * f) / f;
+}
+
 async function fetchUsgs(
   source: 'usgs-hour' | 'usgs-month',
   url: string,
   now: number,
   revalidateSeconds?: number,
+  parseOptions: ParseUsgsOptions = {},
 ): Promise<FeedPayload> {
   const opts = revalidateSeconds === undefined ? {} : { revalidateSeconds };
   const body = await fetchJson(url, opts);
-  const { events, generated } = parseUsgs(body);
+  const { events, generated } = parseUsgs(body, parseOptions);
   const payload: FeedPayload = { source, ok: true, fetchedAt: now, series: [], events, urls: [url] };
   if (generated !== undefined) payload.upstreamUpdatedAt = generated;
   return payload;
@@ -74,5 +89,5 @@ export function fetchUsgsHour(now: number): Promise<FeedPayload> {
 
 /** ~8 MB upstream, so it bypasses Next's data cache; the registry memoizes the parsed result. */
 export function fetchUsgsMonth(now: number): Promise<FeedPayload> {
-  return fetchUsgs('usgs-month', USGS_MONTH_URL, now);
+  return fetchUsgs('usgs-month', USGS_MONTH_URL, now, undefined, { labelMinMagnitude: 4 });
 }

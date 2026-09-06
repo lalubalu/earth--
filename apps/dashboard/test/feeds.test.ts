@@ -42,6 +42,12 @@ describe('USGS', () => {
     for (const e of events) expect(Number.isFinite(e.magnitude)).toBe(true);
   });
 
+  it('can drop labels below a magnitude to keep the month payload small', () => {
+    const { events } = parseUsgs(fixture('usgs_month_trimmed.json'), { labelMinMagnitude: 4 });
+    expect(events.some((e) => e.magnitude < 4 && e.label !== undefined)).toBe(false);
+    expect(events.every((e) => Number.isInteger(e.lat * 1000) || Math.abs(e.lat * 1000 - Math.round(e.lat * 1000)) < 1e-6)).toBe(true);
+  });
+
   it('rejects a non-GeoJSON body', () => {
     expect(() => parseUsgs({ hello: 'world' })).toThrow(/FeatureCollection/);
   });

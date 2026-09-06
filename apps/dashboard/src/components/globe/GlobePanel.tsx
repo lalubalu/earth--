@@ -52,17 +52,48 @@ function useTabVisible(): boolean {
   return visible;
 }
 
+/** Mount the WebGL scene after the first paint has settled, so hydration and the feed
+ *  fetches are not competing with shader compilation for the main thread. */
+function useDeferredMount(signalsReady: boolean): boolean {
+  const [ready, setReady] = useState(false);
+  const [timedOut, setTimedOut] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setTimedOut(true), 4_000);
+    return () => clearTimeout(t);
+  }, []);
+  useEffect(() => {
+    if (ready || !(signalsReady || timedOut)) return;
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (w.requestIdleCallback) {
+      const id = w.requestIdleCallback(() => setReady(true), { timeout: 1500 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const t = setTimeout(() => setReady(true), 250);
+    return () => clearTimeout(t);
+  }, [ready, signalsReady, timedOut]);
+  return ready;
+}
+
 export function GlobePanel() {
-  const { now, feeds, eventsById, signalById } = useData();
+  const { now, feeds, eventsById, signalById, engine } = useData();
   const { selectedSignalId, pickedEventId, pick } = useUi();
   const reducedMotion = usePrefersReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const onScreen = useOnScreen(sectionRef);
   const tabVisible = useTabVisible();
+  const mountScene = useDeferredMount(engine.lastRunAt !== null);
 
   const selected = selectedSignalId ? signalById.get(selectedSignalId) : undefined;
-  const markers = useMemo(() => buildMarkers(feeds.events, now, selected), [feeds.events, now, selected]);
-  const counts = useMemo(() => countByKind(feeds.events, now), [feeds.events, now]);
+  // Recency only needs minute resolution; a 10 s clock would rewrite instance buffers.
+  const minute = Math.floor(now / 60_000) * 60_000;
+  const markers = useMemo(
+    () => buildMarkers(feeds.events, feeds.iss, minute, selected),
+    [feeds.events, feeds.iss, minute, selected],
+  );
+  const counts = useMemo(() => countByKind(feeds.events, minute), [feeds.events, minute]);
   const picked = pickedEventId ? eventsById.get(pickedEventId) : undefined;
   const pickedUrl = picked?.url ?? (picked?.source === 'usgs' ? usgsEventUrl(picked.id) : undefined);
 
@@ -72,7 +103,13 @@ export function GlobePanel() {
       aria-label="Globe of recent events"
       className="relative min-h-[420px] overflow-hidden rounded-card bg-surface/40 hairline lg:min-h-[calc(100vh-9rem)]"
     >
-      <GlobeScene markers={markers} active={onScreen && tabVisible} reducedMotion={reducedMotion} onPick={pick} />
+      {mountScene ? (
+        <GlobeScene markers={markers} active={onScreen && tabVisible} reducedMotion={reducedMotion} onPick={pick} />
+      ) : (
+        <p className="absolute inset-0 flex items-center justify-center font-mono text-[12px] text-ink-3">
+          loading globe
+        </p>
+      )}
 
       <div className="pointer-events-none absolute inset-x-3 top-3 flex items-start justify-between gap-3">
         <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-3">

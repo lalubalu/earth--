@@ -18,7 +18,9 @@ export function Earth() {
   useEffect(() => {
     let disposed = false;
     let created: CanvasTexture | null = null;
-    buildBasemap()
+    // Half-resolution basemap on phones: the draw is main-thread work under a 4x CPU throttle.
+    const width = window.innerWidth < 768 ? 1024 : 2048;
+    buildBasemap(width, width / 2)
       .then((tex) => {
         if (disposed) {
           tex.dispose();

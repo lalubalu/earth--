@@ -1,7 +1,7 @@
 /* Programmer: Lalith Satheesh / Date: 09/05/2026 */
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Signal } from '@lalubalu/signal-engine';
 import { useNow } from '@/hooks/useNow';
 import { DataContext, indexEvents, indexSeries } from '@/lib/data';
@@ -19,11 +19,20 @@ import { TopBar } from './TopBar';
 
 export function Dashboard() {
   const now = useNow(10_000);
-  const feeds = useFeeds(now);
-  const engine = useSignalEngine(feeds.series, feeds.events, feeds.version);
+  const [heavyAllowed, setHeavyAllowed] = useState(false);
+  const feeds = useFeeds(now, heavyAllowed);
+  const engine = useSignalEngine(feeds);
+
+  // First signals on screen, then the 30-day baseline; queued as a task, not mid-effect.
+  const firstRunDone = engine.lastRunAt !== null;
+  useEffect(() => {
+    if (!firstRunDone || heavyAllowed) return;
+    const t = setTimeout(() => setHeavyAllowed(true), 0);
+    return () => clearTimeout(t);
+  }, [firstRunDone, heavyAllowed]);
 
   const seriesById = useMemo(() => indexSeries(feeds.series), [feeds.series]);
-  const eventsById = useMemo(() => indexEvents(feeds.events), [feeds.events]);
+  const eventsById = useMemo(() => indexEvents(feeds.events, feeds.iss), [feeds.events, feeds.iss]);
   const signalById = useMemo(
     () => new Map<string, Signal>(engine.signals.map((s) => [s.id, s])),
     [engine.signals],

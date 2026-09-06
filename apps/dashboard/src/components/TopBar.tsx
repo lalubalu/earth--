@@ -43,7 +43,7 @@ function FeedPill({ state, now }: { state: FeedState; now: number }) {
     >
       <span className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${HEALTH_DOT[health]}`} aria-hidden />
       <span className="whitespace-nowrap">{FEED_LABELS[source]}</span>
-      <span className="whitespace-nowrap font-mono text-ink-3">
+      <span className="w-[5.5em] truncate whitespace-nowrap font-mono text-ink-3">
         {health === 'live' && updated ? formatAgo(updated, now) : HEALTH_TEXT[health]}
       </span>
     </li>
@@ -69,7 +69,7 @@ export function TopBar() {
             <FeedPill key={source} state={feeds.feeds[source]} now={now} />
           ))}
         </ul>
-        <p className="font-mono text-[11px] text-ink-3" aria-live="off">
+        <p className="min-h-[2rem] font-mono text-[11px] text-ink-3 lg:min-h-0" aria-live="off">
           {engine.lastRunAt
             ? `${active} active signal${active === 1 ? '' : 's'} · ${engine.evaluatedSeries} series · ${engine.evaluatedEvents} events · engine ${formatMs(engine.tookMs ?? 0)} in ${engine.mode === 'worker' ? 'worker' : 'main thread'} · ${formatClock(engine.lastRunAt)}`
             : engine.error

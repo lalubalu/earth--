@@ -136,9 +136,10 @@ export function ChartStrip() {
                   type="button"
                   onClick={() => flyTo(tile.lat!, tile.lon!)}
                   className="block w-full px-3 pb-2 pt-2.5 text-left transition-colors duration-200 hover:bg-surface-2"
-                  aria-label={`${tile.label}, fly the globe there`}
+                  title="Fly the globe to this city"
                 >
                   {body}
+                  <span className="sr-only">, fly the globe there</span>
                 </button>
               ) : (
                 <div className="px-3 pb-2 pt-2.5">{body}</div>

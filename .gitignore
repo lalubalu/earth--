@@ -13,3 +13,4 @@ Thumbs.db
 *.log
 .turbo/
 next-env.d.ts
+.playwright-mcp/

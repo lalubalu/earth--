@@ -51,9 +51,6 @@ export function SignalCard({
         { autoAlpha: 0, y: 12 },
         { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power3.out', delay: Math.min(index, MAX_STAGGER) * 0.045 },
       );
-      if (isNew) {
-        gsap.fromTo(el, { borderLeftColor: '#ffd27a' }, { borderLeftColor: '#2e3544', duration: 3, ease: 'power2.out' });
-      }
     });
     return () => mm.revert();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,6 +63,7 @@ export function SignalCard({
         type="button"
         tabIndex={tabIndex}
         data-signal-card
+        data-new={isNew ? '' : undefined}
         aria-current={selected ? 'true' : undefined}
         onClick={() => onOpen(signal.id)}
         onKeyDown={onKeyDown}
