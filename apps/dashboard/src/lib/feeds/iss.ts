@@ -34,5 +34,12 @@ export function parseIss(body: unknown): FeedEvent {
 
 export async function fetchIss(now: number): Promise<FeedPayload> {
   const body = await fetchJson(ISS_URL, { revalidateSeconds: 10, timeoutMs: 8_000 });
-  return { source: 'iss', ok: true, fetchedAt: now, series: [], events: [parseIss(body)], urls: [ISS_URL] };
+  return {
+    source: 'iss',
+    ok: true,
+    fetchedAt: now,
+    series: [],
+    events: [parseIss(body)],
+    urls: [ISS_URL],
+  };
 }

@@ -23,7 +23,14 @@ const DAY = 86_400_000;
  * point detectors it is a marked sample. The band past the threshold is shaded so the eye
  * lands on why it fired.
  */
-export function DetailChart({ points, signal, descriptor, now, width = 640, height = 240 }: DetailChartProps) {
+export function DetailChart({
+  points,
+  signal,
+  descriptor,
+  now,
+  width = 640,
+  height = 240,
+}: DetailChartProps) {
   const model = useMemo(() => {
     const { baseline, observed, threshold } = signal.evidence;
     const windowMs = signal.evidence.window > 0 ? signal.evidence.window : DAY;
@@ -79,42 +86,129 @@ export function DetailChart({ points, signal, descriptor, now, width = 640, heig
       {model.yTicks.map((v) => (
         <g key={v}>
           <line x1={left} x2={right} y1={frame.y(v)} y2={frame.y(v)} stroke="var(--color-line)" />
-          <text x={left - 6} y={frame.y(v)} dy="0.32em" textAnchor="end" fontSize={10} fill="var(--color-ink-3)" fontFamily="var(--font-mono)">
+          <text
+            x={left - 6}
+            y={frame.y(v)}
+            dy="0.32em"
+            textAnchor="end"
+            fontSize={10}
+            fill="var(--color-ink-3)"
+            fontFamily="var(--font-mono)"
+          >
             {formatAxisValue(v)}
           </text>
         </g>
       ))}
       {model.xTicks.map((d) => (
-        <text key={d.getTime()} x={frame.x(d)} y={bottomY + 14} textAnchor="middle" fontSize={10} fill="var(--color-ink-3)" fontFamily="var(--font-mono)">
+        <text
+          key={d.getTime()}
+          x={frame.x(d)}
+          y={bottomY + 14}
+          textAnchor="middle"
+          fontSize={10}
+          fill="var(--color-ink-3)"
+          fontFamily="var(--font-mono)"
+        >
           {formatTick(d, model.span)}
         </text>
       ))}
       {!model.isSpread ? (
-        <rect x={left} y={model.band.y} width={right - left} height={model.band.h} fill="var(--color-accent)" opacity={0.06} />
+        <rect
+          x={left}
+          y={model.band.y}
+          width={right - left}
+          height={model.band.h}
+          fill="var(--color-accent)"
+          opacity={0.06}
+        />
       ) : null}
-      <path d={model.path} fill="none" stroke="var(--color-ink-2)" strokeWidth={1.25} strokeLinejoin="round" />
+      <path
+        d={model.path}
+        fill="none"
+        stroke="var(--color-ink-2)"
+        strokeWidth={1.25}
+        strokeLinejoin="round"
+      />
       {!model.isSpread ? (
         <>
-          <line x1={left} x2={right} y1={model.baselineY} y2={model.baselineY} stroke="var(--color-ink-3)" strokeWidth={1} />
-          <text x={right} y={model.baselineY - 4} textAnchor="end" fontSize={10} fill="var(--color-ink-3)" fontFamily="var(--font-mono)">
+          <line
+            x1={left}
+            x2={right}
+            y1={model.baselineY}
+            y2={model.baselineY}
+            stroke="var(--color-ink-3)"
+            strokeWidth={1}
+          />
+          <text
+            x={right}
+            y={model.baselineY - 4}
+            textAnchor="end"
+            fontSize={10}
+            fill="var(--color-ink-3)"
+            fontFamily="var(--font-mono)"
+          >
             baseline {formatAxisValue(signal.evidence.baseline)} {unit}
           </text>
-          <line x1={left} x2={right} y1={model.thresholdY} y2={model.thresholdY} stroke="var(--color-accent)" strokeWidth={1} strokeDasharray="4 3" />
-          <text x={left + 4} y={model.thresholdY - 4} fontSize={10} fill="var(--color-accent)" fontFamily="var(--font-mono)">
+          <line
+            x1={left}
+            x2={right}
+            y1={model.thresholdY}
+            y2={model.thresholdY}
+            stroke="var(--color-accent)"
+            strokeWidth={1}
+            strokeDasharray="4 3"
+          />
+          <text
+            x={left + 4}
+            y={model.thresholdY - 4}
+            fontSize={10}
+            fill="var(--color-accent)"
+            fontFamily="var(--font-mono)"
+          >
             fires past {formatAxisValue(signal.evidence.threshold)} {unit}
           </text>
           {model.spansSegment ? (
-            <line x1={model.startX} x2={right} y1={model.observedY} y2={model.observedY} stroke="var(--color-accent-2)" strokeWidth={2} />
+            <line
+              x1={model.startX}
+              x2={right}
+              y1={model.observedY}
+              y2={model.observedY}
+              stroke="var(--color-accent-2)"
+              strokeWidth={2}
+            />
           ) : (
-            <circle cx={model.last.x} cy={model.last.y} r={4} fill="var(--color-accent)" stroke="var(--color-bg)" strokeWidth={1.5} />
+            <circle
+              cx={model.last.x}
+              cy={model.last.y}
+              r={4}
+              fill="var(--color-accent)"
+              stroke="var(--color-bg)"
+              strokeWidth={1.5}
+            />
           )}
           {model.spansSegment ? (
-            <line x1={model.startX} x2={model.startX} y1={MARGIN.top} y2={bottomY} stroke="var(--color-accent)" strokeDasharray="2 3" opacity={0.7} />
+            <line
+              x1={model.startX}
+              x2={model.startX}
+              y1={MARGIN.top}
+              y2={bottomY}
+              stroke="var(--color-accent)"
+              strokeDasharray="2 3"
+              opacity={0.7}
+            />
           ) : null}
         </>
       ) : (
-        <text x={left + 4} y={MARGIN.top + 2} fontSize={10} fill="var(--color-accent)" fontFamily="var(--font-mono)">
-          spread {formatAxisValue(signal.evidence.observed)} vs reference {formatAxisValue(signal.evidence.baseline)} {unit}, limit {formatAxisValue(signal.evidence.threshold)}
+        <text
+          x={left + 4}
+          y={MARGIN.top + 2}
+          fontSize={10}
+          fill="var(--color-accent)"
+          fontFamily="var(--font-mono)"
+        >
+          spread {formatAxisValue(signal.evidence.observed)} vs reference{' '}
+          {formatAxisValue(signal.evidence.baseline)} {unit}, limit{' '}
+          {formatAxisValue(signal.evidence.threshold)}
         </text>
       )}
     </svg>

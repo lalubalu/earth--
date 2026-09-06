@@ -95,7 +95,8 @@ export function GlobePanel() {
   );
   const counts = useMemo(() => countByKind(feeds.events, minute), [feeds.events, minute]);
   const picked = pickedEventId ? eventsById.get(pickedEventId) : undefined;
-  const pickedUrl = picked?.url ?? (picked?.source === 'usgs' ? usgsEventUrl(picked.id) : undefined);
+  const pickedUrl =
+    picked?.url ?? (picked?.source === 'usgs' ? usgsEventUrl(picked.id) : undefined);
 
   return (
     <section
@@ -104,7 +105,12 @@ export function GlobePanel() {
       className="relative min-h-[420px] overflow-hidden rounded-card bg-surface/40 hairline lg:min-h-[calc(100vh-9rem)]"
     >
       {mountScene ? (
-        <GlobeScene markers={markers} active={onScreen && tabVisible} reducedMotion={reducedMotion} onPick={pick} />
+        <GlobeScene
+          markers={markers}
+          active={onScreen && tabVisible}
+          reducedMotion={reducedMotion}
+          onPick={pick}
+        />
       ) : (
         <p className="absolute inset-0 flex items-center justify-center font-mono text-[12px] text-ink-3">
           loading globe
@@ -116,11 +122,16 @@ export function GlobePanel() {
           {markers.length} markers · quakes last 24 h and M4.5+ 30 d · drag to orbit, wheel to zoom
         </p>
         {reducedMotion ? (
-          <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-3">motion reduced</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-3">
+            motion reduced
+          </p>
         ) : null}
       </div>
 
-      <ul className="pointer-events-none absolute bottom-3 left-3 flex flex-col gap-0.5 font-mono text-[11px] text-ink-2" aria-label="Marker legend">
+      <ul
+        className="pointer-events-none absolute bottom-3 left-3 flex flex-col gap-0.5 font-mono text-[11px] text-ink-2"
+        aria-label="Marker legend"
+      >
         {LEGEND.map((item) => {
           const count =
             item.kind === 'wildfire'
@@ -130,7 +141,11 @@ export function GlobePanel() {
                 : (counts[item.kind] ?? 0);
           return (
             <li key={item.kind} className="flex items-center gap-2">
-              <span className="w-3 text-center text-accent" aria-hidden style={{ opacity: 0.35 + 0.65 * styleFor(item.kind).tone }}>
+              <span
+                className="w-3 text-center text-accent"
+                aria-hidden
+                style={{ opacity: 0.35 + 0.65 * styleFor(item.kind).tone }}
+              >
                 {item.glyph}
               </span>
               <span>{item.label}</span>
@@ -153,11 +168,18 @@ export function GlobePanel() {
             {styleFor(picked.kind).label} · {picked.lat.toFixed(2)}, {picked.lon.toFixed(2)} ·{' '}
             {formatAgo(picked.t, now)}
             {picked.depthKm !== undefined ? ` · ${fmtNum(picked.depthKm)} km deep` : ''}
-            {picked.magnitudeUnit && picked.kind !== 'earthquake' ? ` · ${fmtNum(picked.magnitude)} ${picked.magnitudeUnit}` : ''}
+            {picked.magnitudeUnit && picked.kind !== 'earthquake'
+              ? ` · ${fmtNum(picked.magnitude)} ${picked.magnitudeUnit}`
+              : ''}
           </p>
           <div className="mt-1 flex items-center gap-3 font-mono text-[11px]">
             {pickedUrl ? (
-              <a href={pickedUrl} target="_blank" rel="noreferrer" className="text-accent underline underline-offset-2">
+              <a
+                href={pickedUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-accent underline underline-offset-2"
+              >
                 source
               </a>
             ) : null}

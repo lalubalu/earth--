@@ -18,7 +18,14 @@ interface SparklineProps {
 const MARGIN = { top: 4, right: 6, bottom: 4, left: 2 };
 
 /** Line over the window, dashed median, and a dot on the last sample. Purely presentational. */
-export function Sparkline({ points, windowMs, now, width = 180, height = 44, label }: SparklineProps) {
+export function Sparkline({
+  points,
+  windowMs,
+  now,
+  width = 180,
+  height = 44,
+  label,
+}: SparklineProps) {
   const model = useMemo(() => {
     const from = now - windowMs;
     const inWindow = windowOf(points, from, now);
@@ -36,13 +43,30 @@ export function Sparkline({ points, windowMs, now, width = 180, height = 44, lab
 
   if (!model) {
     return (
-      <svg viewBox={`0 0 ${width} ${height}`} className="block h-auto w-full" role="img" aria-label={`${label}: not enough data`}>
-        <line x1={2} x2={width - 2} y1={height / 2} y2={height / 2} stroke="var(--color-line-2)" strokeDasharray="2 3" />
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className="block h-auto w-full"
+        role="img"
+        aria-label={`${label}: not enough data`}
+      >
+        <line
+          x1={2}
+          x2={width - 2}
+          y1={height / 2}
+          y2={height / 2}
+          stroke="var(--color-line-2)"
+          strokeDasharray="2 3"
+        />
       </svg>
     );
   }
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} className="block h-auto w-full" role="img" aria-label={`${label}, recent trend`}>
+    <svg
+      viewBox={`0 0 ${width} ${height}`}
+      className="block h-auto w-full"
+      role="img"
+      aria-label={`${label}, recent trend`}
+    >
       <line
         x1={MARGIN.left}
         x2={width - MARGIN.right}
@@ -52,7 +76,14 @@ export function Sparkline({ points, windowMs, now, width = 180, height = 44, lab
         strokeDasharray="2 3"
         vectorEffect="non-scaling-stroke"
       />
-      <path d={model.path} fill="none" stroke="var(--color-ink-2)" strokeWidth={1.25} strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      <path
+        d={model.path}
+        fill="none"
+        stroke="var(--color-ink-2)"
+        strokeWidth={1.25}
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
       <circle cx={model.last.x} cy={model.last.y} r={2.5} fill="var(--color-accent)" />
     </svg>
   );

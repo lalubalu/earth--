@@ -8,7 +8,15 @@ import { useData } from '@/lib/data';
 import { DESCRIPTOR_BY_ID } from '@/lib/engine/descriptors';
 import { usgsEventUrl } from '@/lib/feeds/usgs';
 import { formatAgo, formatDateTime, formatDuration } from '@/lib/format';
-import { DETECTOR_HELP, DETECTOR_LABELS, SEVERITY_LABELS, severityBand, signalEvents, signalLocation, signalTitle } from '@/lib/signals';
+import {
+  DETECTOR_HELP,
+  DETECTOR_LABELS,
+  SEVERITY_LABELS,
+  severityBand,
+  signalEvents,
+  signalLocation,
+  signalTitle,
+} from '@/lib/signals';
 import { useUi } from '@/store/ui';
 import { DetailChart } from '../charts/DetailChart';
 import { EventHistogram, MagnitudeScale } from '../charts/EventCharts';
@@ -33,7 +41,11 @@ export function SignalDrawer() {
       if (panel) {
         const mm = gsap.matchMedia();
         mm.add('(prefers-reduced-motion: no-preference)', () => {
-          gsap.fromTo(panel, { x: 28, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: 'power3.out' });
+          gsap.fromTo(
+            panel,
+            { x: 28, autoAlpha: 0 },
+            { x: 0, autoAlpha: 1, duration: 0.4, ease: 'power3.out' },
+          );
         });
       }
     }
@@ -77,7 +89,8 @@ export function SignalDrawer() {
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 px-5">
             <SeverityMeter severity={signal.severity} />
             <span className="font-mono text-[11px] text-ink-3">
-              score {fmtNum(signal.score)} · {signal.status} · started {formatAgo(signal.startedAt, now)}
+              score {fmtNum(signal.score)} · {signal.status} · started{' '}
+              {formatAgo(signal.startedAt, now)}
             </span>
             {location ? (
               <button
@@ -112,12 +125,18 @@ export function SignalDrawer() {
             ).map(([k, v]) => (
               <div key={k} className="rounded bg-surface-2 px-2 py-1.5">
                 <dt className="text-[10px] uppercase tracking-[0.12em] text-ink-3">{k}</dt>
-                <dd className="text-ink">{isEventSignal && signal.detector !== 'threshold' ? fmtNum(v) : fmtValue(v, descriptor?.unit)}</dd>
+                <dd className="text-ink">
+                  {isEventSignal && signal.detector !== 'threshold'
+                    ? fmtNum(v)
+                    : fmtValue(v, descriptor?.unit)}
+                </dd>
               </div>
             ))}
             <div className="rounded bg-surface-2 px-2 py-1.5">
               <dt className="text-[10px] uppercase tracking-[0.12em] text-ink-3">window</dt>
-              <dd className="text-ink">{signal.evidence.window > 0 ? formatDuration(signal.evidence.window) : 'instant'}</dd>
+              <dd className="text-ink">
+                {signal.evidence.window > 0 ? formatDuration(signal.evidence.window) : 'instant'}
+              </dd>
             </div>
             <div className="rounded bg-surface-2 px-2 py-1.5">
               <dt className="text-[10px] uppercase tracking-[0.12em] text-ink-3">sample size</dt>
@@ -133,7 +152,8 @@ export function SignalDrawer() {
 
           {signal.alsoDetectedBy && signal.alsoDetectedBy.length > 0 ? (
             <p className="mt-3 px-5 font-mono text-[11px] text-ink-3">
-              also flagged by {signal.alsoDetectedBy.map((d) => DETECTOR_LABELS[d].toLowerCase()).join(', ')}
+              also flagged by{' '}
+              {signal.alsoDetectedBy.map((d) => DETECTOR_LABELS[d].toLowerCase()).join(', ')}
             </p>
           ) : null}
 
@@ -149,21 +169,34 @@ export function SignalDrawer() {
                     <li key={e.id} className="flex items-baseline justify-between gap-3 py-1.5">
                       <span className="min-w-0 truncate text-ink-2">
                         <span className="font-mono text-ink">
-                          {e.kind === 'earthquake' ? `M${fmtNum(e.magnitude)}` : `${fmtNum(e.magnitude)}${e.magnitudeUnit ? ` ${e.magnitudeUnit}` : ''}`}
+                          {e.kind === 'earthquake'
+                            ? `M${fmtNum(e.magnitude)}`
+                            : `${fmtNum(e.magnitude)}${e.magnitudeUnit ? ` ${e.magnitudeUnit}` : ''}`}
                         </span>{' '}
                         {href ? (
-                          <a href={href} target="_blank" rel="noreferrer" className="underline decoration-line-2 underline-offset-2 hover:text-accent-2">
+                          <a
+                            href={href}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="underline decoration-line-2 underline-offset-2 hover:text-accent-2"
+                          >
                             {e.label ?? e.id}
                           </a>
                         ) : (
                           (e.label ?? e.id)
                         )}
                       </span>
-                      <span className="shrink-0 font-mono text-[11px] text-ink-3">{formatDateTime(e.t)}</span>
+                      <span className="shrink-0 font-mono text-[11px] text-ink-3">
+                        {formatDateTime(e.t)}
+                      </span>
                     </li>
                   );
                 })}
-                {events.length > 40 ? <li className="py-1.5 font-mono text-[11px] text-ink-3">and {events.length - 40} more</li> : null}
+                {events.length > 40 ? (
+                  <li className="py-1.5 font-mono text-[11px] text-ink-3">
+                    and {events.length - 40} more
+                  </li>
+                ) : null}
               </ul>
             </div>
           ) : (

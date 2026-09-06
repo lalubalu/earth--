@@ -37,10 +37,22 @@ self.onmessage = (event: MessageEvent<WorkerRequest>) => {
       msg.config,
     );
     previous = result.signals;
-    response = { type: 'result', id: msg.id, ok: true, result, tookMs: performance.now() - started };
+    response = {
+      type: 'result',
+      id: msg.id,
+      ok: true,
+      result,
+      tookMs: performance.now() - started,
+    };
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
-    response = { type: 'result', id: msg.id, ok: false, error, tookMs: performance.now() - started };
+    response = {
+      type: 'result',
+      id: msg.id,
+      ok: false,
+      error,
+      tookMs: performance.now() - started,
+    };
   }
   self.postMessage(response);
 };

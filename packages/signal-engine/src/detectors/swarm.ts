@@ -62,10 +62,7 @@ export function detectSwarm(
     for (const members of clusters.values()) {
       const center = centroid(members);
       if (!Number.isFinite(center.lat)) continue;
-      const radius = members.reduce(
-        (max, e) => Math.max(max, haversineKm(e, center)),
-        cfg.epsKm,
-      );
+      const radius = members.reduce((max, e) => Math.max(max, haversineKm(e, center)), cfg.epsKm);
       const baselineCount = baseline.filter((e) => haversineKm(e, center) <= radius).length;
       const expected = (baselineCount * cfg.recentWindowMs) / baselineDuration;
       const z = poissonZ(members.length, expected);

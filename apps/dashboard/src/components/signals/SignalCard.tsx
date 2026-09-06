@@ -49,7 +49,13 @@ export function SignalCard({
       gsap.fromTo(
         el,
         { autoAlpha: 0, y: 12 },
-        { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power3.out', delay: Math.min(index, MAX_STAGGER) * 0.045 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.55,
+          ease: 'power3.out',
+          delay: Math.min(index, MAX_STAGGER) * 0.045,
+        },
       );
     });
     return () => mm.revert();
@@ -76,7 +82,9 @@ export function SignalCard({
           <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-3">
             <span title={DETECTOR_HELP[signal.detector]}>{DETECTOR_LABELS[signal.detector]}</span>
             {signal.alsoDetectedBy && signal.alsoDetectedBy.length > 0 ? (
-              <span title={`Also detected by ${signal.alsoDetectedBy.map((d) => DETECTOR_LABELS[d]).join(', ')}`}>
+              <span
+                title={`Also detected by ${signal.alsoDetectedBy.map((d) => DETECTOR_LABELS[d]).join(', ')}`}
+              >
                 +{signal.alsoDetectedBy.length}
               </span>
             ) : null}

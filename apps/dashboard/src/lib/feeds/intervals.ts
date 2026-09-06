@@ -25,7 +25,10 @@ export const FEED_LABELS: Record<FeedSource, string> = {
 
 /** Attribution lines for the footer, in display order. */
 export const FEED_CREDITS: { label: string; href: string; note?: string }[] = [
-  { label: 'USGS Earthquake Hazards Program', href: 'https://earthquake.usgs.gov/earthquakes/feed/' },
+  {
+    label: 'USGS Earthquake Hazards Program',
+    href: 'https://earthquake.usgs.gov/earthquakes/feed/',
+  },
   { label: 'NOAA Space Weather Prediction Center', href: 'https://www.swpc.noaa.gov/' },
   { label: 'Weather data by Open-Meteo.com', href: 'https://open-meteo.com/', note: 'CC BY 4.0' },
   { label: 'NASA EONET', href: 'https://eonet.gsfc.nasa.gov/' },

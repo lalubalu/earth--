@@ -85,7 +85,10 @@ export function signalDelta(signal: Signal): string {
   return `${fmtValue(observed, unit)} vs ${fmtValue(baseline, unit)}`;
 }
 
-export function signalEvents(signal: Signal, eventsById: ReadonlyMap<string, FeedEvent>): FeedEvent[] {
+export function signalEvents(
+  signal: Signal,
+  eventsById: ReadonlyMap<string, FeedEvent>,
+): FeedEvent[] {
   if (!signal.eventIds) return [];
   const out: FeedEvent[] = [];
   for (const id of signal.eventIds) {
@@ -99,7 +102,8 @@ export function signalLocation(signal: Signal): { lat: number; lon: number } | n
   if (signal.location) return signal.location;
   if (signal.seriesId) {
     const d = DESCRIPTOR_BY_ID.get(signal.seriesId);
-    if (d && typeof d.lat === 'number' && typeof d.lon === 'number') return { lat: d.lat, lon: d.lon };
+    if (d && typeof d.lat === 'number' && typeof d.lon === 'number')
+      return { lat: d.lat, lon: d.lon };
   }
   return null;
 }

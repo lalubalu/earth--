@@ -52,7 +52,7 @@ export function detectEventRate(
 
     const required = poissonRequiredCount(expected, cfg.threshold);
     const sorted = [...recent].sort((a, b) => b.magnitude - a.magnitude || a.t - b.t);
-    const kind = (recent[0] ?? baseline[0] as GeoEvent).kind;
+    const kind = (recent[0] ?? (baseline[0] as GeoEvent)).kind;
     const startedAt = recent.reduce((min, e) => Math.min(min, e.t), ctx.now);
     const where = centroid(recent);
 

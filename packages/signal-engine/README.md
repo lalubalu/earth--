@@ -12,15 +12,32 @@ pnpm add @lalubalu/signal-engine
 import { runEngine, HOUR, DAY } from '@lalubalu/signal-engine';
 import type { SeriesPoint, GeoEvent, Signal } from '@lalubalu/signal-engine';
 
-const series: SeriesPoint[] = hourlyPressure.map((p) => ({ seriesId: 'lhr.pressure', t: p.time, v: p.hpa }));
+const series: SeriesPoint[] = hourlyPressure.map((p) => ({
+  seriesId: 'lhr.pressure',
+  t: p.time,
+  v: p.hpa,
+}));
 const events: GeoEvent[] = quakes.map((q) => ({
-  id: q.id, source: 'usgs', kind: 'earthquake', lat: q.lat, lon: q.lon, t: q.time, magnitude: q.mag, label: q.place,
+  id: q.id,
+  source: 'usgs',
+  kind: 'earthquake',
+  lat: q.lat,
+  lon: q.lon,
+  t: q.time,
+  magnitude: q.mag,
+  label: q.place,
 }));
 
 let previous: Signal[] = [];
 function tick(now: number) {
   const { signals } = runEngine(
-    { series, events, now, previous, descriptors: [{ id: 'lhr.pressure', label: 'London pressure', unit: 'hPa' }] },
+    {
+      series,
+      events,
+      now,
+      previous,
+      descriptors: [{ id: 'lhr.pressure', label: 'London pressure', unit: 'hPa' }],
+    },
     { robustZ: { windowMs: 3 * DAY }, eventRate: { recentWindowMs: 6 * HOUR } },
   );
   previous = signals; // keeps startedAt stable and lets cooldown work

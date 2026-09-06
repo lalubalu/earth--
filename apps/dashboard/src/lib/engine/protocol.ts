@@ -1,5 +1,10 @@
 /* Programmer: Lalith Satheesh / Date: 09/05/2026 */
-import type { EngineConfigInput, EngineResult, GeoEvent, SeriesPoint } from '@lalubalu/signal-engine';
+import type {
+  EngineConfigInput,
+  EngineResult,
+  GeoEvent,
+  SeriesPoint,
+} from '@lalubalu/signal-engine';
 import type { FeedSource } from '@/lib/feeds/types';
 
 /** One source's data, sent only when that source's payload changes. */

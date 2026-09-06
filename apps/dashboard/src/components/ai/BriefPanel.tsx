@@ -29,7 +29,10 @@ export function BriefPanel() {
   });
 
   return (
-    <section aria-labelledby="brief-heading" className="flex flex-col rounded-card bg-surface/60 px-4 pb-4 pt-3 hairline">
+    <section
+      aria-labelledby="brief-heading"
+      className="flex flex-col rounded-card bg-surface/60 px-4 pb-4 pt-3 hairline"
+    >
       <div className="flex items-baseline justify-between gap-3">
         <h2 id="brief-heading" className="font-display text-[22px] leading-none text-ink">
           Brief
@@ -53,7 +56,8 @@ export function BriefPanel() {
       </p>
       {data?.source === 'claude' ? (
         <p className="mt-3 font-mono text-[11px] text-ink-3">
-          The model only sees the signal list above and is told to quote its evidence. Check any number against the cards.
+          The model only sees the signal list above and is told to quote its evidence. Check any
+          number against the cards.
         </p>
       ) : null}
     </section>

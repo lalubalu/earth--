@@ -28,7 +28,13 @@ export function FocusRing() {
   return (
     <mesh position={placement.position} quaternion={placement.quaternion}>
       <ringGeometry args={[0.055, 0.062, 48]} />
-      <meshBasicMaterial color="#ffd27a" transparent opacity={0.85} side={DoubleSide} depthWrite={false} />
+      <meshBasicMaterial
+        color="#ffd27a"
+        transparent
+        opacity={0.85}
+        side={DoubleSide}
+        depthWrite={false}
+      />
     </mesh>
   );
 }

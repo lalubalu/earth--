@@ -38,7 +38,12 @@ describe('event-rate', () => {
       seed: 2,
       idPrefix: 'burst',
     });
-    const out = detectEventRate([...quietBaseline(), ...burst], DEFAULT_CONFIG.eventRate, DEFAULT_CONFIG, evCtx);
+    const out = detectEventRate(
+      [...quietBaseline(), ...burst],
+      DEFAULT_CONFIG.eventRate,
+      DEFAULT_CONFIG,
+      evCtx,
+    );
     expect(out).toHaveLength(1);
     const c = out[0]!;
     expect(c.id).toBe('event-rate:test:earthquake');
@@ -61,7 +66,14 @@ describe('event-rate', () => {
       seed: 3,
       idPrefix: 'n',
     });
-    expect(detectEventRate([...quietBaseline(), ...normal], DEFAULT_CONFIG.eventRate, DEFAULT_CONFIG, evCtx)).toEqual([]);
+    expect(
+      detectEventRate(
+        [...quietBaseline(), ...normal],
+        DEFAULT_CONFIG.eventRate,
+        DEFAULT_CONFIG,
+        evCtx,
+      ),
+    ).toEqual([]);
   });
 
   it('refuses to fire without a baseline', () => {
@@ -70,16 +82,46 @@ describe('event-rate', () => {
   });
 
   it('honours the kinds filter', () => {
-    const storms = makeEvents({ count: 30, from: NOW - HOUR, to: NOW, kind: 'storm', seed: 13, idPrefix: 'st' });
-    const base = makeEvents({ count: 500, from: NOW - 30 * DAY, to: NOW - DAY, kind: 'storm', seed: 14, idPrefix: 'stb' });
+    const storms = makeEvents({
+      count: 30,
+      from: NOW - HOUR,
+      to: NOW,
+      kind: 'storm',
+      seed: 13,
+      idPrefix: 'st',
+    });
+    const base = makeEvents({
+      count: 500,
+      from: NOW - 30 * DAY,
+      to: NOW - DAY,
+      kind: 'storm',
+      seed: 14,
+      idPrefix: 'stb',
+    });
     const cfg = { ...DEFAULT_CONFIG.eventRate, kinds: ['earthquake'] };
     expect(detectEventRate([...base, ...storms], cfg, DEFAULT_CONFIG, evCtx)).toEqual([]);
-    expect(detectEventRate([...base, ...storms], DEFAULT_CONFIG.eventRate, DEFAULT_CONFIG, evCtx)).toHaveLength(1);
+    expect(
+      detectEventRate([...base, ...storms], DEFAULT_CONFIG.eventRate, DEFAULT_CONFIG, evCtx),
+    ).toHaveLength(1);
   });
 
   it('applies the per-kind magnitude floor', () => {
-    const tiny = makeEvents({ count: 40, from: NOW - HOUR, to: NOW, magnitude: 1.2, seed: 5, idPrefix: 'tiny' });
-    expect(detectEventRate([...quietBaseline(), ...tiny], DEFAULT_CONFIG.eventRate, DEFAULT_CONFIG, evCtx)).toEqual([]);
+    const tiny = makeEvents({
+      count: 40,
+      from: NOW - HOUR,
+      to: NOW,
+      magnitude: 1.2,
+      seed: 5,
+      idPrefix: 'tiny',
+    });
+    expect(
+      detectEventRate(
+        [...quietBaseline(), ...tiny],
+        DEFAULT_CONFIG.eventRate,
+        DEFAULT_CONFIG,
+        evCtx,
+      ),
+    ).toEqual([]);
   });
 });
 
@@ -96,7 +138,12 @@ describe('swarm', () => {
       seed: 6,
       idPrefix: 'sw',
     });
-    const out = detectSwarm([...quietBaseline(), ...cluster], DEFAULT_CONFIG.swarm, DEFAULT_CONFIG, evCtx);
+    const out = detectSwarm(
+      [...quietBaseline(), ...cluster],
+      DEFAULT_CONFIG.swarm,
+      DEFAULT_CONFIG,
+      evCtx,
+    );
     expect(out).toHaveLength(1);
     const c = out[0]!;
     expect(c.evidence.observed).toBe(9);
@@ -127,7 +174,9 @@ describe('swarm', () => {
       seed: 9,
       idPrefix: 'today',
     });
-    expect(detectSwarm([...always, ...today], DEFAULT_CONFIG.swarm, DEFAULT_CONFIG, evCtx)).toEqual([]);
+    expect(detectSwarm([...always, ...today], DEFAULT_CONFIG.swarm, DEFAULT_CONFIG, evCtx)).toEqual(
+      [],
+    );
   });
 
   it('ignores scattered events', () => {
@@ -136,7 +185,15 @@ describe('swarm', () => {
   });
 
   it('keeps the id of a previous swarm nearby', () => {
-    const cluster = makeEvents({ count: 8, from: NOW - 6 * HOUR, to: NOW, lat: 10, lon: 10, spreadKm: 10, seed: 11 });
+    const cluster = makeEvents({
+      count: 8,
+      from: NOW - 6 * HOUR,
+      to: NOW,
+      lat: 10,
+      lon: 10,
+      spreadKm: 10,
+      seed: 11,
+    });
     const previous: Signal[] = [
       {
         id: 'swarm:earthquake:old',
@@ -164,8 +221,22 @@ describe('threshold rules', () => {
   ]);
 
   it('fires the G1 rule when Kp reaches 5 and scales severity with Kp', () => {
-    const kp = makeSeries({ id: 'noaa.kp_1m', stepMs: MINUTE, count: 360, base: 2, sigma: 0.2, shape: (i, n) => (i >= n - 5 ? 4 : 0) });
-    const out = detectThresholds(groupSeries(kp, NOW), [], DEFAULT_CONFIG.threshold, DEFAULT_CONFIG, descriptors, NOW);
+    const kp = makeSeries({
+      id: 'noaa.kp_1m',
+      stepMs: MINUTE,
+      count: 360,
+      base: 2,
+      sigma: 0.2,
+      shape: (i, n) => (i >= n - 5 ? 4 : 0),
+    });
+    const out = detectThresholds(
+      groupSeries(kp, NOW),
+      [],
+      DEFAULT_CONFIG.threshold,
+      DEFAULT_CONFIG,
+      descriptors,
+      NOW,
+    );
     expect(out).toHaveLength(1);
     const c = out[0]!;
     expect(c.rule).toBe('kp-storm');
@@ -177,10 +248,40 @@ describe('threshold rules', () => {
   });
 
   it('requires Bz to stay below -10 nT for the whole sustained window', () => {
-    const brief = makeSeries({ id: 'noaa.bz', stepMs: MINUTE, count: 300, base: 0, sigma: 1, shape: (i, n) => (i >= n - 10 ? -15 : 0) });
-    expect(detectThresholds(groupSeries(brief, NOW), [], DEFAULT_CONFIG.threshold, DEFAULT_CONFIG, descriptors, NOW)).toEqual([]);
-    const sustained = makeSeries({ id: 'noaa.bz', stepMs: MINUTE, count: 300, base: 0, sigma: 1, shape: (i, n) => (i >= n - 45 ? -15 : 0) });
-    const out = detectThresholds(groupSeries(sustained, NOW), [], DEFAULT_CONFIG.threshold, DEFAULT_CONFIG, descriptors, NOW);
+    const brief = makeSeries({
+      id: 'noaa.bz',
+      stepMs: MINUTE,
+      count: 300,
+      base: 0,
+      sigma: 1,
+      shape: (i, n) => (i >= n - 10 ? -15 : 0),
+    });
+    expect(
+      detectThresholds(
+        groupSeries(brief, NOW),
+        [],
+        DEFAULT_CONFIG.threshold,
+        DEFAULT_CONFIG,
+        descriptors,
+        NOW,
+      ),
+    ).toEqual([]);
+    const sustained = makeSeries({
+      id: 'noaa.bz',
+      stepMs: MINUTE,
+      count: 300,
+      base: 0,
+      sigma: 1,
+      shape: (i, n) => (i >= n - 45 ? -15 : 0),
+    });
+    const out = detectThresholds(
+      groupSeries(sustained, NOW),
+      [],
+      DEFAULT_CONFIG.threshold,
+      DEFAULT_CONFIG,
+      descriptors,
+      NOW,
+    );
     expect(out).toHaveLength(1);
     expect(out[0]!.rule).toBe('bz-south');
     expect(out[0]!.evidence.window).toBe(30 * MINUTE);
@@ -188,10 +289,32 @@ describe('threshold rules', () => {
   });
 
   it('fires per major earthquake inside the event window only', () => {
-    const background = makeEvents({ count: 50, from: NOW - 20 * DAY, to: NOW - 2 * DAY, magnitude: 2, seed: 12 });
-    const big: GeoEvent = { id: 'big', source: 'usgs', kind: 'earthquake', lat: -8, lon: 120, t: NOW - HOUR, magnitude: 6.4, label: 'Flores Sea' };
+    const background = makeEvents({
+      count: 50,
+      from: NOW - 20 * DAY,
+      to: NOW - 2 * DAY,
+      magnitude: 2,
+      seed: 12,
+    });
+    const big: GeoEvent = {
+      id: 'big',
+      source: 'usgs',
+      kind: 'earthquake',
+      lat: -8,
+      lon: 120,
+      t: NOW - HOUR,
+      magnitude: 6.4,
+      label: 'Flores Sea',
+    };
     const old: GeoEvent = { ...big, id: 'old', t: NOW - 3 * DAY, magnitude: 6.0 };
-    const out = detectThresholds(new Map(), [...background, big, old], DEFAULT_CONFIG.threshold, DEFAULT_CONFIG, descriptors, NOW);
+    const out = detectThresholds(
+      new Map(),
+      [...background, big, old],
+      DEFAULT_CONFIG.threshold,
+      DEFAULT_CONFIG,
+      descriptors,
+      NOW,
+    );
     expect(out).toHaveLength(1);
     const c = out[0]!;
     expect(c.id).toBe('threshold:major-quake:big');

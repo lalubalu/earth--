@@ -26,13 +26,48 @@ export function fallbackBrief(signals: CompactSignal[]): string {
   return `${active.length} active signal${active.length === 1 ? '' : 's'} (${counts}). ${top.join(' ')}`;
 }
 
-const STOP = new Set(['the', 'what', 'is', 'are', 'in', 'of', 'a', 'an', 'how', 'show', 'me', 'and', 'to', 'for', 'on', 'at', 'last', 'this', 'that', 'with', 'about', 'any', 'there', 'now', 'today', 'right', 'plot', 'chart', 'graph']);
+const STOP = new Set([
+  'the',
+  'what',
+  'is',
+  'are',
+  'in',
+  'of',
+  'a',
+  'an',
+  'how',
+  'show',
+  'me',
+  'and',
+  'to',
+  'for',
+  'on',
+  'at',
+  'last',
+  'this',
+  'that',
+  'with',
+  'about',
+  'any',
+  'there',
+  'now',
+  'today',
+  'right',
+  'plot',
+  'chart',
+  'graph',
+]);
 
 /**
  * Zero-key ask: match question words against series labels and answer from the current
  * signals. Says plainly that it is not a model.
  */
-export function fallbackAsk(question: string, signals: CompactSignal[], series: SeriesSummary[], now: number): AskAnswer {
+export function fallbackAsk(
+  question: string,
+  signals: CompactSignal[],
+  series: SeriesSummary[],
+  now: number,
+): AskAnswer {
   const words = question
     .toLowerCase()
     .split(/[^a-z0-9.]+/)
@@ -51,7 +86,9 @@ export function fallbackAsk(question: string, signals: CompactSignal[], series: 
   const windowMs = requestedWindow(question);
 
   const related = signals.filter(
-    (sig) => matches.some((m) => m.s.id === sig.seriesId) || words.some((w) => sig.title.toLowerCase().includes(w)),
+    (sig) =>
+      matches.some((m) => m.s.id === sig.seriesId) ||
+      words.some((w) => sig.title.toLowerCase().includes(w)),
   );
 
   const parts: string[] = [
@@ -60,14 +97,27 @@ export function fallbackAsk(question: string, signals: CompactSignal[], series: 
   if (matches.length > 0) {
     parts.push(
       `Matched series: ${matches
-        .map((m) => `${m.s.label} is ${fmt(m.s.last)} ${m.s.unit} (7-day median ${fmt(m.s.median)}, range ${fmt(m.s.min)} to ${fmt(m.s.max)})`)
+        .map(
+          (m) =>
+            `${m.s.label} is ${fmt(m.s.last)} ${m.s.unit} (7-day median ${fmt(m.s.median)}, range ${fmt(m.s.min)} to ${fmt(m.s.max)})`,
+        )
         .join('; ')}.`,
     );
   }
   if (related.length > 0) {
-    parts.push(`Related signals: ${related.slice(0, 3).map((s) => s.summary).join(' ')}`);
+    parts.push(
+      `Related signals: ${related
+        .slice(0, 3)
+        .map((s) => s.summary)
+        .join(' ')}`,
+    );
   } else if (signals.length > 0) {
-    parts.push(`Top signals right now: ${signals.slice(0, 3).map((s) => s.summary).join(' ')}`);
+    parts.push(
+      `Top signals right now: ${signals
+        .slice(0, 3)
+        .map((s) => s.summary)
+        .join(' ')}`,
+    );
   } else {
     parts.push('No signals are active.');
   }
@@ -86,7 +136,15 @@ export function fallbackAsk(question: string, signals: CompactSignal[], series: 
   return answer;
 }
 
-const NUMBER_WORDS: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7 };
+const NUMBER_WORDS: Record<string, number> = {
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+};
 
 /** "last three days", "past 12 hours", "2d" -> milliseconds, capped at the 7-day history. */
 function requestedWindow(question: string): number | null {

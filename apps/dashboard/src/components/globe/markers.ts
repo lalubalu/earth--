@@ -33,10 +33,25 @@ export interface KindStyle {
 }
 
 export const KIND_STYLES: Record<string, KindStyle> = {
-  earthquake: { shape: 0, tone: 1, label: 'earthquake', magnitude: (e) => clamp01(e.magnitude / 8) },
-  wildfire: { shape: 1, tone: 0.9, label: 'wildfire', magnitude: (e) => 0.15 + 0.3 * clamp01(Math.log10(1 + Math.max(0, e.magnitude)) / 6) },
+  earthquake: {
+    shape: 0,
+    tone: 1,
+    label: 'earthquake',
+    magnitude: (e) => clamp01(e.magnitude / 8),
+  },
+  wildfire: {
+    shape: 1,
+    tone: 0.9,
+    label: 'wildfire',
+    magnitude: (e) => 0.15 + 0.3 * clamp01(Math.log10(1 + Math.max(0, e.magnitude)) / 6),
+  },
   volcano: { shape: 1, tone: 0.7, label: 'volcano', magnitude: () => 0.4 },
-  storm: { shape: 2, tone: 0.5, label: 'severe storm', magnitude: (e) => 0.3 + 0.4 * clamp01(e.magnitude / 150) },
+  storm: {
+    shape: 2,
+    tone: 0.5,
+    label: 'severe storm',
+    magnitude: (e) => 0.3 + 0.4 * clamp01(e.magnitude / 150),
+  },
   'sea-ice': { shape: 2, tone: 0.25, label: 'sea or lake ice', magnitude: () => 0.35 },
   iss: { shape: 3, tone: 0, label: 'ISS', magnitude: () => 0.55 },
 };
@@ -69,10 +84,7 @@ export function buildMarkers(
     const isQuake = e.kind === 'earthquake';
     const ageMs = now - e.t;
     const keep =
-      wanted.has(e.id) ||
-      !isQuake ||
-      ageMs <= DAY ||
-      (e.magnitude >= 4.5 && ageMs <= 30 * DAY);
+      wanted.has(e.id) || !isQuake || ageMs <= DAY || (e.magnitude >= 4.5 && ageMs <= 30 * DAY);
     if (!keep) continue;
     const style = styleFor(e.kind);
     const freshness = isQuake ? clamp01(1 - ageMs / (7 * DAY)) : clamp01(1 - ageMs / (30 * DAY));

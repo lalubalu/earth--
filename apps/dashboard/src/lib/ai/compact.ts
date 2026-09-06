@@ -9,7 +9,10 @@ import type { CompactSignal, SeriesSummary } from './schemas';
 const DAY = 86_400_000;
 
 /** Signal to the model-facing shape: title, summary, evidence, no internals. */
-export function compactSignal(signal: Signal, eventsById: ReadonlyMap<string, FeedEvent>): CompactSignal {
+export function compactSignal(
+  signal: Signal,
+  eventsById: ReadonlyMap<string, FeedEvent>,
+): CompactSignal {
   const out: CompactSignal = {
     id: signal.id,
     title: signalTitle(signal, eventsById),
@@ -37,7 +40,10 @@ export function compactSignal(signal: Signal, eventsById: ReadonlyMap<string, Fe
   return out;
 }
 
-export function summarizeSeries(seriesById: ReadonlyMap<string, SeriesPoint[]>, now: number): SeriesSummary[] {
+export function summarizeSeries(
+  seriesById: ReadonlyMap<string, SeriesPoint[]>,
+  now: number,
+): SeriesSummary[] {
   const out: SeriesSummary[] = [];
   for (const [id, points] of seriesById) {
     const recent = points.filter((p) => p.t >= now - 7 * DAY && p.t <= now);

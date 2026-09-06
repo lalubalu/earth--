@@ -6,7 +6,13 @@ import { runEngine } from '@lalubalu/signal-engine';
 import { CITIES } from '../src/lib/feeds/cities';
 import { parseEonet } from '../src/lib/feeds/eonet';
 import { parseIss } from '../src/lib/feeds/iss';
-import { NOAA_SERIES, parseKp1m, parseKp3h, parseRtswMag, parseRtswWind } from '../src/lib/feeds/noaa';
+import {
+  NOAA_SERIES,
+  parseKp1m,
+  parseKp3h,
+  parseRtswMag,
+  parseRtswWind,
+} from '../src/lib/feeds/noaa';
 import { AIR_VARS, FORECAST_VARS, buildUrl, parseOpenMeteo } from '../src/lib/feeds/openMeteo';
 import { getFeed, resetFeedMemo } from '../src/lib/feeds/registry';
 import { parseUsgs, usgsEventUrl } from '../src/lib/feeds/usgs';
@@ -24,13 +30,20 @@ describe('USGS', () => {
     expect(events.length).toBe(3);
     expect(generated).toBe(1788662750000);
     const e = events[0]!;
-    expect(e).toMatchObject({ id: 'aka2026rqgcof', source: 'usgs', kind: 'earthquake', magnitude: 1 });
+    expect(e).toMatchObject({
+      id: 'aka2026rqgcof',
+      source: 'usgs',
+      kind: 'earthquake',
+      magnitude: 1,
+    });
     expect(e.lat).toBeCloseTo(64.856, 3);
     expect(e.lon).toBeCloseTo(-147.21, 2);
     expect(e.depthKm).toBe(4.9);
     expect(e.label).toContain('Alaska');
     expect(e.url).toBeUndefined();
-    expect(usgsEventUrl(e.id)).toBe('https://earthquake.usgs.gov/earthquakes/eventpage/aka2026rqgcof');
+    expect(usgsEventUrl(e.id)).toBe(
+      'https://earthquake.usgs.gov/earthquakes/eventpage/aka2026rqgcof',
+    );
   });
 
   it('keeps non-earthquake types under their own kind and drops null magnitudes', () => {
@@ -45,7 +58,13 @@ describe('USGS', () => {
   it('can drop labels below a magnitude to keep the month payload small', () => {
     const { events } = parseUsgs(fixture('usgs_month_trimmed.json'), { labelMinMagnitude: 4 });
     expect(events.some((e) => e.magnitude < 4 && e.label !== undefined)).toBe(false);
-    expect(events.every((e) => Number.isInteger(e.lat * 1000) || Math.abs(e.lat * 1000 - Math.round(e.lat * 1000)) < 1e-6)).toBe(true);
+    expect(
+      events.every(
+        (e) =>
+          Number.isInteger(e.lat * 1000) ||
+          Math.abs(e.lat * 1000 - Math.round(e.lat * 1000)) < 1e-6,
+      ),
+    ).toBe(true);
   });
 
   it('rejects a non-GeoJSON body', () => {
@@ -68,10 +87,18 @@ describe('NOAA', () => {
     const bz = parseRtswMag(fixture('rtsw_mag_trimmed.json'));
     expect(bz[0]).toEqual({ seriesId: NOAA_SERIES.bz, t: Date.UTC(2026, 8, 6, 2, 42), v: 0.31 });
     const kp1m = parseKp1m(fixture('kp_1m.json'));
-    expect(kp1m[0]).toEqual({ seriesId: NOAA_SERIES.kp1m, t: Date.UTC(2026, 8, 5, 20, 45), v: 0.33 });
+    expect(kp1m[0]).toEqual({
+      seriesId: NOAA_SERIES.kp1m,
+      t: Date.UTC(2026, 8, 5, 20, 45),
+      v: 0.33,
+    });
     const kp3h = parseKp3h(fixture('kp_3h.json'));
     expect(kp3h.length).toBe(56);
-    expect(kp3h[0]).toEqual({ seriesId: NOAA_SERIES.kp3h, t: Date.UTC(2026, 7, 30, 0, 0), v: 3.67 });
+    expect(kp3h[0]).toEqual({
+      seriesId: NOAA_SERIES.kp3h,
+      t: Date.UTC(2026, 7, 30, 0, 0),
+      v: 3.67,
+    });
   });
 
   it('rejects a non-array body', () => {
@@ -83,7 +110,9 @@ describe('Open-Meteo', () => {
   it('builds one batched request with every anchor city', () => {
     const url = new URL(buildUrl('https://api.open-meteo.com/v1/forecast', FORECAST_VARS));
     expect(url.searchParams.get('latitude')!.split(',')).toHaveLength(CITIES.length);
-    expect(url.searchParams.get('hourly')).toBe('temperature_2m,pressure_msl,wind_gusts_10m,precipitation');
+    expect(url.searchParams.get('hourly')).toBe(
+      'temperature_2m,pressure_msl,wind_gusts_10m,precipitation',
+    );
     expect(url.searchParams.get('past_days')).toBe('7');
     expect(url.searchParams.get('timeformat')).toBe('unixtime');
   });
@@ -109,7 +138,14 @@ describe('Open-Meteo', () => {
   });
 
   it('surfaces the upstream error reason', () => {
-    expect(() => parseOpenMeteo({ error: true, reason: 'Latitude must be in range' }, 'meteo', FORECAST_VARS, CAPTURED_AT)).toThrow(/Latitude/);
+    expect(() =>
+      parseOpenMeteo(
+        { error: true, reason: 'Latitude must be in range' },
+        'meteo',
+        FORECAST_VARS,
+        CAPTURED_AT,
+      ),
+    ).toThrow(/Latitude/);
   });
 });
 
@@ -118,13 +154,20 @@ describe('EONET', () => {
     const events = parseEonet(fixture('eonet_trimmed.json'));
     expect(events.length).toBeGreaterThan(0);
     const storm = events.find((e) => e.id === 'eonet:EONET_23800')!;
-    expect(storm).toMatchObject({ kind: 'storm', label: 'Hurricane Marie', magnitude: 80, magnitudeUnit: 'kts' });
+    expect(storm).toMatchObject({
+      kind: 'storm',
+      label: 'Hurricane Marie',
+      magnitude: 80,
+      magnitudeUnit: 'kts',
+    });
     expect(storm.lat).toBe(21.9);
     expect(storm.lon).toBe(-120.6);
     expect(storm.t).toBe(Date.UTC(2026, 8, 5, 18, 0));
     const ice = events.find((e) => e.id === 'eonet:EONET_2736')!;
     expect(ice.kind).toBe('sea-ice');
-    expect(events.every((e) => ['wildfire', 'storm', 'volcano', 'sea-ice'].includes(e.kind))).toBe(true);
+    expect(events.every((e) => ['wildfire', 'storm', 'volcano', 'sea-ice'].includes(e.kind))).toBe(
+      true,
+    );
   });
 
   it('takes the centroid of a polygon geometry', () => {
@@ -134,7 +177,20 @@ describe('EONET', () => {
           id: 'X',
           title: 'Poly',
           categories: [{ id: 'wildfires' }],
-          geometry: [{ date: '2026-09-01T00:00:00Z', type: 'Polygon', coordinates: [[[10, 20], [12, 20], [12, 22], [10, 22]]] }],
+          geometry: [
+            {
+              date: '2026-09-01T00:00:00Z',
+              type: 'Polygon',
+              coordinates: [
+                [
+                  [10, 20],
+                  [12, 20],
+                  [12, 22],
+                  [10, 22],
+                ],
+              ],
+            },
+          ],
         },
       ],
     });
@@ -159,7 +215,9 @@ describe('registry', () => {
   });
 
   it('memoizes for the poll interval and coalesces concurrent calls', async () => {
-    const fetchMock = vi.fn(async () => new Response(JSON.stringify(fixture('iss.json')), { status: 200 }));
+    const fetchMock = vi.fn(
+      async () => new Response(JSON.stringify(fixture('iss.json')), { status: 200 }),
+    );
     vi.stubGlobal('fetch', fetchMock);
     const now = CAPTURED_AT;
     const [a, b] = await Promise.all([getFeed('iss', now), getFeed('iss', now)]);
@@ -207,7 +265,10 @@ describe('engine over real fixtures', () => {
       ...parseEonet(fixture('eonet_trimmed.json')),
       parseIss(fixture('iss.json')),
     ];
-    const result = runEngine({ series, events, descriptors: [...DESCRIPTORS], now: CAPTURED_AT }, ENGINE_CONFIG);
+    const result = runEngine(
+      { series, events, descriptors: [...DESCRIPTORS], now: CAPTURED_AT },
+      ENGINE_CONFIG,
+    );
     expect(result.evaluatedSeries).toBeGreaterThan(70);
     expect(result.evaluatedEvents).toBe(events.length);
     for (const s of result.signals) {

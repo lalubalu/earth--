@@ -29,7 +29,9 @@ export function parseUsgs(
   if (!isRecord(body) || !Array.isArray(body.features)) {
     throw new Error('USGS: not a GeoJSON FeatureCollection');
   }
-  const generated = isRecord(body.metadata) ? (num(body.metadata.generated) ?? undefined) : undefined;
+  const generated = isRecord(body.metadata)
+    ? (num(body.metadata.generated) ?? undefined)
+    : undefined;
   const events: FeedEvent[] = [];
   for (const f of body.features) {
     if (!isRecord(f) || !isRecord(f.properties) || !isRecord(f.geometry)) continue;
@@ -78,7 +80,14 @@ async function fetchUsgs(
   const opts = revalidateSeconds === undefined ? {} : { revalidateSeconds };
   const body = await fetchJson(url, opts);
   const { events, generated } = parseUsgs(body, parseOptions);
-  const payload: FeedPayload = { source, ok: true, fetchedAt: now, series: [], events, urls: [url] };
+  const payload: FeedPayload = {
+    source,
+    ok: true,
+    fetchedAt: now,
+    series: [],
+    events,
+    urls: [url],
+  };
   if (generated !== undefined) payload.upstreamUpdatedAt = generated;
   return payload;
 }

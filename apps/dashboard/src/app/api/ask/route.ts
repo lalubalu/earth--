@@ -53,7 +53,10 @@ function sanitize(answer: AskResponse, req: AskRequest): AskResponse {
     void _chart;
     return rest;
   }
-  const earliest = Math.max(req.now - 8 * DAY, Math.min(...req.series.filter((s) => seriesIds.includes(s.id)).map((s) => s.from)));
+  const earliest = Math.max(
+    req.now - 8 * DAY,
+    Math.min(...req.series.filter((s) => seriesIds.includes(s.id)).map((s) => s.from)),
+  );
   const to = Math.min(req.now, Math.max(answer.chart.to, earliest + 60_000));
   const from = Math.max(earliest, Math.min(answer.chart.from, to - 60_000));
   return { ...answer, chart: { ...answer.chart, seriesIds, from, to } };
@@ -81,7 +84,10 @@ async function askModel(req: AskRequest): Promise<AskResponse> {
   const tool = message.content.find((block) => block.type === 'tool_use');
   if (!tool || tool.type !== 'tool_use') throw new Error('model returned no tool call');
   const parsed = askAnswerSchema.safeParse(tool.input);
-  if (!parsed.success) throw new Error(`model output failed validation: ${parsed.error.issues[0]?.message ?? 'unknown'}`);
+  if (!parsed.success)
+    throw new Error(
+      `model output failed validation: ${parsed.error.issues[0]?.message ?? 'unknown'}`,
+    );
   return sanitize({ ...parsed.data, source: 'claude', model }, req);
 }
 
@@ -90,7 +96,9 @@ export async function POST(req: Request) {
   const limit = rateLimit(`ask:${clientIp(req)}`, RATE_LIMIT, RATE_WINDOW_MS, now);
   if (!limit.ok) {
     return NextResponse.json(
-      { error: `Rate limit: ${RATE_LIMIT} questions per 10 minutes. Try again in ${limit.retryAfterSeconds} s.` },
+      {
+        error: `Rate limit: ${RATE_LIMIT} questions per 10 minutes. Try again in ${limit.retryAfterSeconds} s.`,
+      },
       { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } },
     );
   }
@@ -106,20 +114,29 @@ export async function POST(req: Request) {
   }
   const parsed = askRequestSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: 'Invalid request', issues: parsed.error.issues.slice(0, 5) }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Invalid request', issues: parsed.error.issues.slice(0, 5) },
+      { status: 400 },
+    );
   }
   const request = parsed.data;
 
   if (!hasApiKey()) {
     const fallback = fallbackAsk(request.question, request.signals, request.series, request.now);
-    return NextResponse.json({ ...sanitize({ ...fallback, source: 'fallback' }, request) }, { headers: { 'Cache-Control': 'no-store' } });
+    return NextResponse.json(
+      { ...sanitize({ ...fallback, source: 'fallback' }, request) },
+      { headers: { 'Cache-Control': 'no-store' } },
+    );
   }
   try {
     const answer = await askModel(request);
     return NextResponse.json(answer, { headers: { 'Cache-Control': 'no-store' } });
   } catch (err) {
     const fallback = fallbackAsk(request.question, request.signals, request.series, request.now);
-    const response: AskResponse = { ...sanitize({ ...fallback, source: 'fallback' }, request), degraded: describeError(err) };
+    const response: AskResponse = {
+      ...sanitize({ ...fallback, source: 'fallback' }, request),
+      degraded: describeError(err),
+    };
     return NextResponse.json(response, { headers: { 'Cache-Control': 'no-store' } });
   }
 }

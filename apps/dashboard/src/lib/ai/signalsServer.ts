@@ -13,12 +13,17 @@ import type { CompactSignal } from './schemas';
  * reruns the engine over the server's own memoized feed payloads instead. No run-to-run
  * continuity here, which only affects startedAt on statistical detectors.
  */
-export async function serverSignals(now: number): Promise<{ signals: CompactSignal[]; feedsDown: string[] }> {
+export async function serverSignals(
+  now: number,
+): Promise<{ signals: CompactSignal[]; feedsDown: string[] }> {
   const payloads = await Promise.all(FEED_SOURCES.map((s) => getFeed(s, now)));
   const series = payloads.flatMap((p) => p.series);
   const events = payloads.flatMap((p) => p.events);
   const eventsById = new Map<string, FeedEvent>(events.map((e) => [e.id, e]));
-  const { signals } = runEngine({ series, events, descriptors: [...DESCRIPTORS], now }, ENGINE_CONFIG);
+  const { signals } = runEngine(
+    { series, events, descriptors: [...DESCRIPTORS], now },
+    ENGINE_CONFIG,
+  );
   return {
     signals: signals.map((s) => compactSignal(s, eventsById)),
     feedsDown: payloads.filter((p) => !p.ok).map((p) => p.source),

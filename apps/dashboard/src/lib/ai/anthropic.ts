@@ -25,7 +25,9 @@ export function anthropic(): Anthropic {
 }
 
 export function describeError(err: unknown): string {
-  if (err instanceof Anthropic.APIError) return `Anthropic API ${err.status ?? ''} ${err.name}`.trim();
-  if (err instanceof Error) return err.name === 'AbortError' ? 'Anthropic request timed out' : err.message;
+  if (err instanceof Anthropic.APIError)
+    return `Anthropic API ${err.status ?? ''} ${err.name}`.trim();
+  if (err instanceof Error)
+    return err.name === 'AbortError' ? 'Anthropic request timed out' : err.message;
   return 'unknown error';
 }

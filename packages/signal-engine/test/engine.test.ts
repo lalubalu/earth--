@@ -46,15 +46,32 @@ describe('reconcile', () => {
   });
 
   it('collapses grouped threshold rules to the strongest member', () => {
-    const a = candidate({ id: 'threshold:kp-storm:noaa.kp', seriesId: 'noaa.kp', detector: 'threshold', severity: 0.5, group: 'g' });
-    const b = candidate({ id: 'threshold:kp-storm:noaa.kp_1m', seriesId: 'noaa.kp_1m', detector: 'threshold', severity: 0.7, group: 'g' });
-    expect(reconcile([a, b], [], NOW, cfg).map((s) => s.id)).toEqual(['threshold:kp-storm:noaa.kp_1m']);
+    const a = candidate({
+      id: 'threshold:kp-storm:noaa.kp',
+      seriesId: 'noaa.kp',
+      detector: 'threshold',
+      severity: 0.5,
+      group: 'g',
+    });
+    const b = candidate({
+      id: 'threshold:kp-storm:noaa.kp_1m',
+      seriesId: 'noaa.kp_1m',
+      detector: 'threshold',
+      severity: 0.7,
+      group: 'g',
+    });
+    expect(reconcile([a, b], [], NOW, cfg).map((s) => s.id)).toEqual([
+      'threshold:kp-storm:noaa.kp_1m',
+    ]);
   });
 
   it('applies hysteresis only to signals that were active', () => {
     const weak = candidate({ id: 'robust-z:s', seriesId: 's', ratio: 0.85 });
     expect(reconcile([weak], [], NOW, cfg)).toEqual([]);
-    const prevActive: Signal = { ...candidate({ id: 'robust-z:s', seriesId: 's' }), status: 'active' };
+    const prevActive: Signal = {
+      ...candidate({ id: 'robust-z:s', seriesId: 's' }),
+      status: 'active',
+    };
     expect(reconcile([weak], [prevActive], NOW, cfg)).toHaveLength(1);
     const prevCooling: Signal = { ...prevActive, status: 'cooling' };
     expect(reconcile([weak], [prevCooling], NOW, cfg)).toHaveLength(1);
@@ -64,9 +81,22 @@ describe('reconcile', () => {
   });
 
   it('preserves startedAt across runs and cools cleared signals for cooldownMs', () => {
-    const first = reconcile([candidate({ id: 'cusum:s', seriesId: 's', detector: 'cusum', startedAt: NOW - 5 * HOUR })], [], NOW, cfg);
+    const first = reconcile(
+      [candidate({ id: 'cusum:s', seriesId: 's', detector: 'cusum', startedAt: NOW - 5 * HOUR })],
+      [],
+      NOW,
+      cfg,
+    );
     const second = reconcile(
-      [candidate({ id: 'cusum:s', seriesId: 's', detector: 'cusum', startedAt: NOW - 4 * HOUR, updatedAt: NOW + MINUTE })],
+      [
+        candidate({
+          id: 'cusum:s',
+          seriesId: 's',
+          detector: 'cusum',
+          startedAt: NOW - 4 * HOUR,
+          updatedAt: NOW + MINUTE,
+        }),
+      ],
       first,
       NOW + MINUTE,
       cfg,
@@ -83,7 +113,12 @@ describe('reconcile', () => {
 
   it('does not carry a cooling duplicate for a series that has a live signal', () => {
     const prev: Signal = { ...candidate({ id: 'robust-z:s', seriesId: 's' }), status: 'active' };
-    const now = reconcile([candidate({ id: 'threshold:r:s', seriesId: 's', detector: 'threshold' })], [prev], NOW + MINUTE, cfg);
+    const now = reconcile(
+      [candidate({ id: 'threshold:r:s', seriesId: 's', detector: 'threshold' })],
+      [prev],
+      NOW + MINUTE,
+      cfg,
+    );
     expect(now.map((s) => s.id)).toEqual(['threshold:r:s']);
   });
 
@@ -108,9 +143,32 @@ describe('runEngine', () => {
   function scenario(): { series: SeriesPoint[]; events: GeoEvent[] } {
     const temp = makeSeries({ id: 'meteo.nyc.temp', base: 22, sigma: 1.5, seed: 31 });
     temp[temp.length - 1] = { ...temp[temp.length - 1]!, v: 41 };
-    const kp = makeSeries({ id: 'noaa.kp_1m', stepMs: MINUTE, count: 360, base: 2, sigma: 0.2, seed: 32, shape: (i, n) => (i >= n - 30 ? 4.5 : 0) });
-    const baseline = makeEvents({ count: 1200, from: NOW - 30 * DAY, to: NOW - 3 * HOUR, spreadKm: 5000, seed: 33 });
-    const quake: GeoEvent = { id: 'q1', source: 'usgs', kind: 'earthquake', lat: 36, lon: 140, t: NOW - 20 * MINUTE, magnitude: 6.1, label: 'Honshu' };
+    const kp = makeSeries({
+      id: 'noaa.kp_1m',
+      stepMs: MINUTE,
+      count: 360,
+      base: 2,
+      sigma: 0.2,
+      seed: 32,
+      shape: (i, n) => (i >= n - 30 ? 4.5 : 0),
+    });
+    const baseline = makeEvents({
+      count: 1200,
+      from: NOW - 30 * DAY,
+      to: NOW - 3 * HOUR,
+      spreadKm: 5000,
+      seed: 33,
+    });
+    const quake: GeoEvent = {
+      id: 'q1',
+      source: 'usgs',
+      kind: 'earthquake',
+      lat: 36,
+      lon: 140,
+      t: NOW - 20 * MINUTE,
+      magnitude: 6.1,
+      label: 'Honshu',
+    };
     return { series: [...temp, ...kp], events: [...baseline, quake] };
   }
 
@@ -150,14 +208,22 @@ describe('runEngine', () => {
     const { series, events } = scenario();
     const out = runEngine(
       { series, events, descriptors, now: NOW },
-      { robustZ: { enabled: false }, ewma: { enabled: false }, cusum: { enabled: false }, threshold: { rules: [] } },
+      {
+        robustZ: { enabled: false },
+        ewma: { enabled: false },
+        cusum: { enabled: false },
+        threshold: { rules: [] },
+      },
     );
     expect(out.signals).toEqual([]);
   });
 
   it('survives garbage input', () => {
     const out = runEngine({
-      series: [{ seriesId: 'x', t: NaN, v: 1 }, { seriesId: 'x', t: NOW, v: Infinity }],
+      series: [
+        { seriesId: 'x', t: NaN, v: 1 },
+        { seriesId: 'x', t: NOW, v: Infinity },
+      ],
       events: [{ id: 'e', source: 's', kind: 'k', lat: 999, lon: 0, t: NOW, magnitude: 1 }],
       now: NOW,
     });
@@ -169,7 +235,11 @@ describe('runEngine', () => {
 
 describe('resolveConfig', () => {
   it('deep merges objects and replaces arrays', () => {
-    const cfg = resolveConfig({ eventRate: { threshold: 4 }, threshold: { rules: [] }, swarm: { kinds: ['earthquake'] } });
+    const cfg = resolveConfig({
+      eventRate: { threshold: 4 },
+      threshold: { rules: [] },
+      swarm: { kinds: ['earthquake'] },
+    });
     expect(cfg.eventRate.threshold).toBe(4);
     expect(cfg.eventRate.baselineWindowMs).toBe(DEFAULT_CONFIG.eventRate.baselineWindowMs);
     expect(cfg.threshold.rules).toEqual([]);

@@ -40,7 +40,9 @@ export async function GET(req: Request, ctx: { params: Promise<{ source: string 
     Vary: 'Accept-Encoding',
     // Successful payloads are cached at the CDN for one poll interval; failures are not, so a
     // recovered upstream shows up on the next poll rather than after the TTL.
-    'Cache-Control': payload.ok ? `public, s-maxage=${ttl}, stale-while-revalidate=${ttl}` : 'no-store',
+    'Cache-Control': payload.ok
+      ? `public, s-maxage=${ttl}, stale-while-revalidate=${ttl}`
+      : 'no-store',
   };
   if (wantsGzip) headers['Content-Encoding'] = 'gzip';
   const bytes = wantsGzip ? body.gzip : body.json;

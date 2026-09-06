@@ -54,7 +54,8 @@ export function parseOpenMeteo(
 ): SeriesPoint[] {
   const list = Array.isArray(body) ? body : isRecord(body) && isRecord(body.hourly) ? [body] : null;
   if (!list) {
-    const reason = isRecord(body) && typeof body.reason === 'string' ? body.reason : 'unexpected shape';
+    const reason =
+      isRecord(body) && typeof body.reason === 'string' ? body.reason : 'unexpected shape';
     throw new Error(`Open-Meteo: ${reason}`);
   }
   const out: SeriesPoint[] = [];

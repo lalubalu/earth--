@@ -21,7 +21,12 @@ const FETCHERS: Record<FeedSource, FeedSpec['fetch']> = {
 export const FEEDS: Record<FeedSource, FeedSpec> = Object.fromEntries(
   (Object.keys(FETCHERS) as FeedSource[]).map((source) => [
     source,
-    { source, label: FEED_LABELS[source], intervalMs: FEED_INTERVALS[source], fetch: FETCHERS[source] },
+    {
+      source,
+      label: FEED_LABELS[source],
+      intervalMs: FEED_INTERVALS[source],
+      fetch: FETCHERS[source],
+    },
   ]),
 ) as Record<FeedSource, FeedSpec>;
 

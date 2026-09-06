@@ -71,7 +71,11 @@ export function windowOf(points: readonly SeriesPoint[], from: number, to: numbe
   return points.filter((p) => p.t >= from && p.t <= to);
 }
 
-const tickTime = new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit', hour12: false });
+const tickTime = new Intl.DateTimeFormat(undefined, {
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+});
 const tickDay = new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' });
 
 export function formatTick(d: Date, spanMs: number): string {

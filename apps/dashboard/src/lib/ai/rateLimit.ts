@@ -22,14 +22,23 @@ export interface RateLimitResult {
   retryAfterSeconds: number;
 }
 
-export function rateLimit(key: string, limit: number, windowMs: number, now = Date.now()): RateLimitResult {
+export function rateLimit(
+  key: string,
+  limit: number,
+  windowMs: number,
+  now = Date.now(),
+): RateLimitResult {
   if (++calls % SWEEP_EVERY === 0) sweep(now, windowMs);
   const bucket = buckets.get(key) ?? { stamps: [] };
   bucket.stamps = bucket.stamps.filter((t) => now - t < windowMs);
   if (bucket.stamps.length >= limit) {
     const oldest = bucket.stamps[0] ?? now;
     buckets.set(key, bucket);
-    return { ok: false, remaining: 0, retryAfterSeconds: Math.ceil((oldest + windowMs - now) / 1000) };
+    return {
+      ok: false,
+      remaining: 0,
+      retryAfterSeconds: Math.ceil((oldest + windowMs - now) / 1000),
+    };
   }
   bucket.stamps.push(now);
   buckets.set(key, bucket);

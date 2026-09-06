@@ -46,7 +46,10 @@ export function indexSeries(points: readonly SeriesPoint[]): Map<string, SeriesP
   return map;
 }
 
-export function indexEvents(events: readonly FeedEvent[], extra: FeedEvent | null = null): Map<string, FeedEvent> {
+export function indexEvents(
+  events: readonly FeedEvent[],
+  extra: FeedEvent | null = null,
+): Map<string, FeedEvent> {
   const map = new Map<string, FeedEvent>();
   for (const e of events) map.set(e.id, e);
   if (extra) map.set(extra.id, extra);

@@ -84,7 +84,12 @@ export function useSignalEngine(feeds: FeedsSnapshot): EngineState {
       if (sentRef.current.get(source) === payload) continue;
       sentRef.current.set(source, payload);
       if (worker) {
-        const msg: DataMessage = { type: 'data', source, series: payload.series, events: payload.events };
+        const msg: DataMessage = {
+          type: 'data',
+          source,
+          series: payload.series,
+          events: payload.events,
+        };
         worker.postMessage(msg);
       } else {
         heldRef.current.set(source, { series: payload.series, events: payload.events });

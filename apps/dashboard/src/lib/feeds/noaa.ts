@@ -102,7 +102,8 @@ const PARTS: Part[] = [
 export async function fetchNoaa(now: number): Promise<FeedPayload> {
   const results = await Promise.allSettled(
     PARTS.map(async (p) => {
-      const opts = p.revalidateSeconds === undefined ? {} : { revalidateSeconds: p.revalidateSeconds };
+      const opts =
+        p.revalidateSeconds === undefined ? {} : { revalidateSeconds: p.revalidateSeconds };
       return p.parse(await fetchJson(p.url, opts));
     }),
   );
@@ -110,7 +111,8 @@ export async function fetchNoaa(now: number): Promise<FeedPayload> {
   const failures: string[] = [];
   results.forEach((r, i) => {
     if (r.status === 'fulfilled') series.push(...r.value);
-    else failures.push(`${PARTS[i]!.url.split('/').pop()}: ${String(r.reason?.message ?? r.reason)}`);
+    else
+      failures.push(`${PARTS[i]!.url.split('/').pop()}: ${String(r.reason?.message ?? r.reason)}`);
   });
   const payload: FeedPayload = {
     source: 'noaa',

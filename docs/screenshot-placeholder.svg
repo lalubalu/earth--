@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="600" viewBox="0 0 1440 600" role="img" aria-label="Screenshot placeholder">
+  <rect width="1440" height="600" fill="#0a0c10"/>
+  <rect x="24" y="24" width="1392" height="552" rx="6" fill="none" stroke="#222835" stroke-width="2"/>
+  <circle cx="720" cy="300" r="150" fill="none" stroke="#f5a524" stroke-width="3" stroke-opacity="0.6"/>
+  <circle cx="720" cy="300" r="12" fill="#f5a524"/>
+  <text x="720" y="500" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#e9e6df">Screenshot pending</text>
+  <text x="720" y="540" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="16" fill="#82857e">Replace with a real capture: docs/screenshot.png</text>
+</svg>

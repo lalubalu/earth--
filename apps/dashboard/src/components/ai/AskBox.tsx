@@ -57,12 +57,17 @@ export function AskBox() {
 
   const answer = mutation.data;
   return (
-    <section aria-labelledby="ask-heading" className="flex flex-col rounded-card bg-surface/60 px-4 pb-4 pt-3 hairline">
+    <section
+      aria-labelledby="ask-heading"
+      className="flex flex-col rounded-card bg-surface/60 px-4 pb-4 pt-3 hairline"
+    >
       <div className="flex items-baseline justify-between gap-3">
         <h2 id="ask-heading" className="font-display text-[22px] leading-none text-ink">
           Ask
         </h2>
-        <p className="font-mono text-[11px] text-ink-3">answers come with the chart that backs them</p>
+        <p className="font-mono text-[11px] text-ink-3">
+          answers come with the chart that backs them
+        </p>
       </div>
       <form onSubmit={onSubmit} className="mt-3 flex gap-2">
         <label htmlFor={inputId} className="sr-only">

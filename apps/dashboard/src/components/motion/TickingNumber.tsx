@@ -27,7 +27,13 @@ export function TickingNumber({ value, format, className }: TickingNumberProps) 
     if (!el) return;
     const from = shown.current;
     shown.current = value;
-    if (from === null || reduced || from === value || !Number.isFinite(from) || !Number.isFinite(value)) {
+    if (
+      from === null ||
+      reduced ||
+      from === value ||
+      !Number.isFinite(from) ||
+      !Number.isFinite(value)
+    ) {
       el.textContent = format(value);
       return;
     }

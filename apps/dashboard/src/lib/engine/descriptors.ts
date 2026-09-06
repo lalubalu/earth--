@@ -77,8 +77,20 @@ function cityDescriptors(): SeriesDescriptor[] {
 }
 
 export const DESCRIPTORS: readonly SeriesDescriptor[] = [
-  { id: NOAA_SERIES.speed, label: 'Solar wind speed', unit: 'km/s', minSigma: 20, overrides: ONE_MINUTE_FEED },
-  { id: NOAA_SERIES.density, label: 'Solar wind density', unit: 'p/cm³', minSigma: 1.5, overrides: ONE_MINUTE_FEED },
+  {
+    id: NOAA_SERIES.speed,
+    label: 'Solar wind speed',
+    unit: 'km/s',
+    minSigma: 20,
+    overrides: ONE_MINUTE_FEED,
+  },
+  {
+    id: NOAA_SERIES.density,
+    label: 'Solar wind density',
+    unit: 'p/cm³',
+    minSigma: 1.5,
+    overrides: ONE_MINUTE_FEED,
+  },
   { id: NOAA_SERIES.bz, label: 'Bz (GSM)', unit: 'nT', minSigma: 2, overrides: ONE_MINUTE_FEED },
   { id: NOAA_SERIES.kp1m, label: 'Kp (1-min estimate)', unit: '', minSigma: 1, overrides: KP_1M },
   { id: NOAA_SERIES.kp3h, label: 'Kp (3-hour)', unit: '', minSigma: 1, overrides: KP_3H },

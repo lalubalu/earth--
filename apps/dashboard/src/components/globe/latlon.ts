@@ -8,7 +8,12 @@ const DEG = Math.PI / 180;
  * v = 1 at the north pole. An equirectangular texture whose left edge is longitude -180
  * therefore lands where it should, and this is the one place lat/lon becomes a position.
  */
-export function latLonToVector3(lat: number, lon: number, radius = 1, out = new Vector3()): Vector3 {
+export function latLonToVector3(
+  lat: number,
+  lon: number,
+  radius = 1,
+  out = new Vector3(),
+): Vector3 {
   const theta = (90 - lat) * DEG;
   const phi = (lon + 180) * DEG;
   const sinTheta = Math.sin(theta);

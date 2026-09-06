@@ -62,7 +62,10 @@ export function Earth() {
 
   // Headlight that sits up and to the left of the camera, so the terminator is always in
   // view no matter how the user has orbited.
-  const scratch = useMemo(() => ({ dir: new Vector3(), side: new Vector3(), up: new Vector3() }), []);
+  const scratch = useMemo(
+    () => ({ dir: new Vector3(), side: new Vector3(), up: new Vector3() }),
+    [],
+  );
   useFrame(({ camera }) => {
     const { dir, side, up } = scratch;
     dir.copy(camera.position).normalize();

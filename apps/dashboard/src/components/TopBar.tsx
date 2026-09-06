@@ -41,7 +41,10 @@ function FeedPill({ state, now }: { state: FeedState; now: number }) {
       className="flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] leading-4 text-ink-2 hairline"
       title={detail}
     >
-      <span className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${HEALTH_DOT[health]}`} aria-hidden />
+      <span
+        className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${HEALTH_DOT[health]}`}
+        aria-hidden
+      />
       <span className="whitespace-nowrap">{FEED_LABELS[source]}</span>
       <span className="w-[5.5em] truncate whitespace-nowrap font-mono text-ink-3">
         {health === 'live' && updated ? formatAgo(updated, now) : HEALTH_TEXT[health]}

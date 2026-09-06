@@ -49,7 +49,8 @@ export function ChartStrip() {
     const ids: { id: string; signalId?: string }[] = PINNED.map((id) => ({ id }));
     for (const s of signals) {
       if (ids.length >= TILE_COUNT) break;
-      if (s.seriesId && !ids.some((t) => t.id === s.seriesId)) ids.push({ id: s.seriesId, signalId: s.id });
+      if (s.seriesId && !ids.some((t) => t.id === s.seriesId))
+        ids.push({ id: s.seriesId, signalId: s.id });
     }
     for (const id of QUIET_FILL) {
       if (ids.length >= TILE_COUNT) break;
@@ -113,19 +114,29 @@ export function ChartStrip() {
                   <span className="font-display text-[26px] leading-none text-ink">—</span>
                 )}
                 {delta !== null ? (
-                  <span className="font-mono text-[11px] text-ink-3" title="difference from the window median">
+                  <span
+                    className="font-mono text-[11px] text-ink-3"
+                    title="difference from the window median"
+                  >
                     {delta >= 0 ? '+' : ''}
                     {fmtValue(delta, tile.unit)}
                   </span>
                 ) : null}
               </div>
               <div className="mt-1">
-                <Sparkline points={tile.points} windowMs={tile.windowMs} now={now} label={tile.label} />
+                <Sparkline
+                  points={tile.points}
+                  windowMs={tile.windowMs}
+                  now={now}
+                  label={tile.label}
+                />
               </div>
               <p className="font-mono text-[10px] text-ink-3">
                 {tile.last ? formatAgo(tile.last.t, now) : 'no data'}
                 {tile.windowMs === DAY ? ' · 24 h' : ' · 7 d'}
-                {tile.points.length > 0 && tile.points.length < 30 ? ` · ${tile.points.length} pts` : ''}
+                {tile.points.length > 0 && tile.points.length < 30
+                  ? ` · ${tile.points.length} pts`
+                  : ''}
               </p>
             </>
           );
@@ -149,7 +160,8 @@ export function ChartStrip() {
         })}
       </ul>
       <p className="mt-2 px-1 font-mono text-[10px] text-ink-3">
-        {seriesById.size} series in memory · one-minute solar-wind files cover about {Math.round(DAY / HOUR)} h, so their baselines are a day, not a week
+        {seriesById.size} series in memory · one-minute solar-wind files cover about{' '}
+        {Math.round(DAY / HOUR)} h, so their baselines are a day, not a week
       </p>
     </section>
   );

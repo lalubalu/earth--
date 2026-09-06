@@ -4,15 +4,15 @@ Resume point for any fresh session. Read this before touching code.
 
 ## Plan
 
-| Phase | Scope | Status |
-| --- | --- | --- |
-| 1 | Monorepo scaffold, tooling, CI, this file | done |
-| 2 | `packages/signal-engine` with Vitest suite | done |
-| 3 | Feed adapters + `/api/feeds/[source]` route handlers, verified live | done |
-| 4 | Dashboard shell, Web Worker wiring, signal feed, D3 charts | done |
-| 5 | WebGL globe and GSAP motion | done |
-| 6 | AI layer (`/api/brief`, `/api/ask`) with keyless fallback | done |
-| 7 | README, docs, performance and accessibility pass | todo |
+| Phase | Scope                                                               | Status |
+| ----- | ------------------------------------------------------------------- | ------ |
+| 1     | Monorepo scaffold, tooling, CI, this file                           | done   |
+| 2     | `packages/signal-engine` with Vitest suite                          | done   |
+| 3     | Feed adapters + `/api/feeds/[source]` route handlers, verified live | done   |
+| 4     | Dashboard shell, Web Worker wiring, signal feed, D3 charts          | done   |
+| 5     | WebGL globe and GSAP motion                                         | done   |
+| 6     | AI layer (`/api/brief`, `/api/ask`) with keyless fallback           | done   |
+| 7     | README, docs, performance and accessibility pass                    | todo   |
 
 ## Decisions
 
@@ -50,6 +50,16 @@ Resume point for any fresh session. Read this before touching code.
 
 - Phase 6: `/api/brief` (GET) reruns the engine over the server's own memoized feed payloads rather than trusting client-posted signals, because its result is cached for everyone for 10 minutes; a poisoned POST would have poisoned the brief. `/api/ask` (POST) takes the client's signals and per-series summaries (validated, capped) plus the question, forces a tool call named `answer`, validates the tool input with zod, then clamps chart series ids and time range to what the client actually has. Per-IP sliding-window limits (30 briefs / 12 asks per 10 min), 413 on bodies over 400 KB. No key: templated brief and a label-matching offline answer that says so. Model errors (verified against a 401 with a bogus key) degrade to the fallback with a `degraded` reason. `.env.example` documents `ANTHROPIC_API_KEY` and `ANTHROPIC_MODEL` (default `claude-sonnet-5`). The successful Claude path is unverified here: no key on this machine.
 
+- Phase 7 performance pass: feed route handlers gzip their bodies (Next does not compress route handler responses; 3.5 MB became ~370 KB), the month feed drops place labels below M4 and rounds coordinates, the worker owns feed data (sources posted only when they change; a heartbeat run is one small message), the ISS is excluded from engine input and merged data so its 10 s poll re-renders nothing heavy, the month feed loads after the first engine result, the globe mounts after the first result on an idle callback with a half-resolution basemap on phones, feed pills have fixed widths (this was the CLS), and the new-card flash is a CSS keyframe instead of a 3 s GSAP tween per card.
+- Lighthouse on the local production build (Chromium 1234, lighthouse@latest): desktop performance 94 to 95, accessibility 100, best practices 100 (LCP 1.3 s, TBT 90 to 120 ms, CLS 0.05). Mobile performance 61, accessibility 100 (LCP 3.8 s, TBT 1.8 s, CLS 0.001); the remaining mobile cost is the WebGL scene and 25k records under a 4x CPU throttle.
+- README (Mermaid architecture, quick start, engine snippet, credits, Vercel env vars, honesty notes), CONTRIBUTING.md, screenshot placeholder with instructions in `docs/SCREENSHOT.md`, `apps/dashboard/.env.example`. Prettier applied across the repo.
+
+## Unverified
+
+- The successful Claude path in `/api/brief` and `/api/ask`: no `ANTHROPIC_API_KEY` on this machine. The SDK call shape was exercised with a bogus key (401, clean fallback) and with a mocked client in tests.
+- Vercel deployment and the CDN `s-maxage` behaviour; only `next build` and `next start` were run locally.
+- npm publish of `@lalubalu/signal-engine` (the name was free on 2026-09-05; the release workflow needs an `NPM_TOKEN` secret).
+
 ## Next
 
-- Phase 7: root README with Mermaid architecture, CONTRIBUTING.md, Lighthouse pass, final accessibility check, final commit, push to GitHub.
+- Push to https://github.com/lalubalu/earth--, deploy to Vercel, add the real screenshot and demo link, publish the package with `pnpm changeset` then the release workflow.

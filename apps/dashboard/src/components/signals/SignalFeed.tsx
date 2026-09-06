@@ -18,9 +18,11 @@ export function SignalFeed() {
   const { selectedSignalId, openDrawer, flyTo, showCooling, toggleCooling } = useUi();
   const listRef = useRef<HTMLOListElement>(null);
   const [focusIndexRaw, setFocusIndex] = useState(0);
-  const [tracked, setTracked] = useState<{ signals: typeof signals; newIds: Set<string>; announcement: string }>(
-    () => ({ signals, newIds: new Set(), announcement: '' }),
-  );
+  const [tracked, setTracked] = useState<{
+    signals: typeof signals;
+    newIds: Set<string>;
+    announcement: string;
+  }>(() => ({ signals, newIds: new Set(), announcement: '' }));
 
   // Diff against the last rendered list during render (React's "adjust state on prop
   // change" pattern) so new arrivals get a highlight and one live-region announcement.
