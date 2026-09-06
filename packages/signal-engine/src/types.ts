@@ -164,6 +164,8 @@ export interface EventRateConfig {
   threshold: number;
   /** Baseline events needed before a rate is trusted. */
   minBaselineEvents: number;
+  /** Only these kinds are counted; empty means all. */
+  kinds: string[];
   /** Per-kind magnitude floor applied before counting. */
   minMagnitude: Record<string, number>;
   /** Cap on eventIds attached to a signal. */
@@ -244,11 +246,7 @@ export interface EngineConfig {
 }
 
 export type DeepPartial<T> = {
-  [K in keyof T]?: T[K] extends (infer U)[]
-    ? U[]
-    : T[K] extends Record<string, unknown>
-      ? DeepPartial<T[K]>
-      : T[K];
+  [K in keyof T]?: T[K] extends (infer U)[] ? U[] : T[K] extends object ? DeepPartial<T[K]> : T[K];
 };
 
 export type EngineConfigInput = DeepPartial<EngineConfig>;

@@ -8,7 +8,7 @@ Resume point for any fresh session. Read this before touching code.
 | --- | --- | --- |
 | 1 | Monorepo scaffold, tooling, CI, this file | done |
 | 2 | `packages/signal-engine` with Vitest suite | done |
-| 3 | Feed adapters + `/api/feeds/[source]` route handlers, verified live | todo |
+| 3 | Feed adapters + `/api/feeds/[source]` route handlers, verified live | done |
 | 4 | Dashboard shell, Web Worker wiring, signal feed, D3 charts | todo |
 | 5 | WebGL globe and GSAP motion | todo |
 | 6 | AI layer (`/api/brief`, `/api/ask`) with keyless fallback | todo |
@@ -39,6 +39,9 @@ Resume point for any fresh session. Read this before touching code.
 - Phase 1: scaffold, CI (`.github/workflows/ci.yml`), release workflow (needs `NPM_TOKEN`), changesets, templates, MIT license.
 - Phase 2: engine with six detectors, reconcile (dedupe/hysteresis/cooldown/rank), 50 Vitest tests (98% lines), tsup ESM+CJS+d.ts build, README.
 
+- Phase 3: adapters for USGS (hour + month), NOAA (rtsw wind/mag, Kp 1m, Kp 3h), Open-Meteo forecast and air quality (batched, 12 cities), EONET, ISS. Route handler `/api/feeds/[source]` with module-scope memo + in-flight coalescing + CDN `s-maxage`; failures serve last-good data with `ok:false`. 16 Vitest tests over trimmed live fixtures in `apps/dashboard/test/fixtures`. All seven routes verified end-to-end through `next dev` on 2026-09-05 (usgs-month payload ~2 MB before gzip, fetched hourly).
+- Engine descriptors and dashboard engine config live in `apps/dashboard/src/lib/engine/descriptors.ts` (labels, units, `minSigma`, per-cadence overrides, earthquake-only rate/swarm).
+
 ## Next
 
-- Phase 3: feed adapters + route handlers in `apps/dashboard/src/lib/feeds`, tested against the captured fixtures.
+- Phase 4: dashboard shell (`layout.tsx`, `page.tsx`, fonts, Tailwind theme), TanStack Query polling hooks, Web Worker running the engine, signal feed + cards, D3 chart strip and detail drawer.

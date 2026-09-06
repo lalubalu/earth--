@@ -69,6 +69,14 @@ describe('event-rate', () => {
     expect(detectEventRate(burst, DEFAULT_CONFIG.eventRate, DEFAULT_CONFIG, evCtx)).toEqual([]);
   });
 
+  it('honours the kinds filter', () => {
+    const storms = makeEvents({ count: 30, from: NOW - HOUR, to: NOW, kind: 'storm', seed: 13, idPrefix: 'st' });
+    const base = makeEvents({ count: 500, from: NOW - 30 * DAY, to: NOW - DAY, kind: 'storm', seed: 14, idPrefix: 'stb' });
+    const cfg = { ...DEFAULT_CONFIG.eventRate, kinds: ['earthquake'] };
+    expect(detectEventRate([...base, ...storms], cfg, DEFAULT_CONFIG, evCtx)).toEqual([]);
+    expect(detectEventRate([...base, ...storms], DEFAULT_CONFIG.eventRate, DEFAULT_CONFIG, evCtx)).toHaveLength(1);
+  });
+
   it('applies the per-kind magnitude floor', () => {
     const tiny = makeEvents({ count: 40, from: NOW - HOUR, to: NOW, magnitude: 1.2, seed: 5, idPrefix: 'tiny' });
     expect(detectEventRate([...quietBaseline(), ...tiny], DEFAULT_CONFIG.eventRate, DEFAULT_CONFIG, evCtx)).toEqual([]);

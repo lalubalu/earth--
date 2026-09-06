@@ -75,6 +75,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
     baselineWindowMs: 30 * DAY,
     threshold: 3,
     minBaselineEvents: 10,
+    kinds: [],
     minMagnitude: { earthquake: 2.5 },
     maxEventIds: 200,
   },

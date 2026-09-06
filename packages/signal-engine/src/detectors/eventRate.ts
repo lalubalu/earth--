@@ -29,6 +29,7 @@ export function detectEventRate(
 
   const groups = new Map<string, GeoEvent[]>();
   for (const e of events) {
+    if (cfg.kinds.length > 0 && !cfg.kinds.includes(e.kind)) continue;
     const floor = cfg.minMagnitude[e.kind];
     if (floor !== undefined && e.magnitude < floor) continue;
     if (e.t < baselineFrom || e.t > ctx.now) continue;
